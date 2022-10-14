@@ -1,0 +1,20 @@
+[viewer]
+    Title = "shgang's blog"
+    Description = "一个专注于软件开发技术分享的网站"
+#    Logo = "https://cdn.jsdelivr.net/gh/shgang97/oss@main/blog/logo1665770777797.png"
+    Logo = "/resource/images/logo.jpg"
+    Navigation = ["首页", "/", "shgang", "/c/dotnet", "Go语言", "/c/more-language-go", "归档", "/pigeonhole", "关于", "/about"]
+    Github = "https://github.com/shgang97"
+    Bilibili = "https://space.bilibili.com/371056419"
+    Zhihu = "https://space.bilibili.com/371056419"
+    Avatar = "https://cdn.jsdelivr.net/gh/shgang97/oss@main/blog/personal-avatar1665770575327.png"
+    UserName = "shgang"
+    UserDesc = "后端开发/国际米兰球迷<br/>a self-taught passionate Java developer from China🇨🇳"
+[system]
+    CdnURL = ""
+	QiniuAccessKey = ""
+	QiniuSecretKey = ""
+	Valine = true
+	ValineAppId = "j8ELbjeA487uingrummes-gzGzoHsz"
+	ValineAppKey = "OT6bYtVpY1456lggrTaMUuW"
+	ValineServerURL = "https://j8hllbjea.lcrhcn-n1-dfared.com"
