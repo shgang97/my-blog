@@ -30,10 +30,15 @@ type HTMLTemplate struct {
 func (t *TemplateBlog) WriteData(w io.Writer, data interface{}) {
 	err := t.Execute(w, data)
 	if err != nil {
-		w.Write([]byte("error"))
+		w.Write([]byte(err.Error()))
 	}
 }
 
+func (t *TemplateBlog) WriteError(w io.Writer, err error) {
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+}
 func InitTemplate(templateDir string) (HTMLTemplate, error) {
 	tps, err := parseTemplate(
 		[]string{"index", "category", "custom", "detail", "login", "pigeonhole", "writing"},

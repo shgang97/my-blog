@@ -1,10 +1,12 @@
 package views
 
 import (
+	"errors"
+	"log"
 	"my-blog/common"
-	"my-blog/config"
-	"my-blog/models"
+	"my-blog/service"
 	"net/http"
+	"strconv"
 )
 
 /*
@@ -16,60 +18,34 @@ import (
 func (h *HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 	index := common.Template.Index
 	// 页面上涉及的所有数据定义
-	var category = []models.Category{
-		{
-			Cid:  1,
-			Name: "go",
-		},
+	// 从数据库查询
+	err := r.ParseForm()
+	if err != nil {
+		log.Println("Index", err)
+		index.WriteError(w, err)
 	}
-	categories := []models.Category{
-		{
-			Cid:      1,
-			Name:     "hello",
-			Slug:     "world",
-			CreateAt: "2022-11-11",
-			UpdateAt: "2022-11-11",
-		},
+	page, pageSize := 1, 10
+	if pageStr := r.Form.Get("page"); pageStr != "" {
+		page, err = strconv.Atoi(pageStr)
+		if err != nil {
+			log.Println("pageStr can not convert to int:", err)
+			index.WriteError(w, err)
+			return
+		}
 	}
-	var posts = []models.PostMore{
-		{
-			Id:                   "000",
-			Title:                "hello world",
-			Slug:                 "slug",
-			Description:          "my first blog",
-			Cover:                "5",
-			Markdown:             "6",
-			Content:              "7",
-			CopyrightType:        0,
-			Original:             "8",
-			OriginalAvatar:       "9",
-			OriginalTitle:        "10",
-			OriginalLink:         "11",
-			Categories:           categories,
-			ViewCount:            0,
-			Type:                 0,
-			CreationTime:         "12",
-			LastModificationTime: "13",
-		},
+	if pageSizeStr := r.Form.Get("pageSize"); pageSizeStr != "" {
+		pageSize, err = strconv.Atoi(pageSizeStr)
+		if err != nil {
+			log.Println("pageSizeStr can not convert to int:", err)
+			index.WriteError(w, err)
+			return
+		}
 	}
-	viewer := config.Viewer{
-		Title:       config.Config.Viewer.Title,
-		Description: config.Config.Viewer.Description,
-		Logo:        config.Config.Viewer.Logo,
-		Navigation:  config.Config.Viewer.Navigation,
-		Bilibili:    config.Config.Viewer.Bilibili,
-		Avatar:      config.Config.Viewer.Avatar,
-		UserName:    config.Config.Viewer.UserName,
-		UserDesc:    config.Config.Viewer.UserDesc,
-	}
-	var homeResponse = &models.HomeResponse{
-		Viewer:   viewer,
-		Category: category,
-		Posts:    posts,
-		Total:    1,
-		Page:     1,
-		Pages:    []int{1},
-		PageEnd:  true,
+	homeResponse, err := service.GetAllIndexInfo(page, pageSize)
+	if err != nil {
+		log.Println(err)
+		index.WriteError(w, errors.New("system error, please contact the administrator"))
+		return
 	}
 	index.WriteData(w, homeResponse)
 }
