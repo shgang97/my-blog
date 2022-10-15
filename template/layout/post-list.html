@@ -3,21 +3,23 @@
   {{range $index, $elem := .Posts}}
   <li class="post-label">
     <a href="/p/{{$elem.Slug}}"><h2>{{$elem.Title}}</h2></a>
-    <p>{{$elem.Description}}</p>
+    <p>{{$elem.Content}}</p>
     <div class="post-action">
+{{/*      <span>*/}}
+{{/*        <i class="iconfont icon-yonghu"></i>*/}}
+{{/*        &nbsp; {{$elem.Original}}*/}}
+{{/*      </span>*/}}
       <span>
-        <i class="iconfont icon-yonghu"></i>
-        &nbsp; {{$elem.Original}}
-      </span>
-      <span>
+{{/*        <i class="iconfont icon-wenjianjia"></i>*/}}
+{{/*        {{range $catIndex, $cat := $elem.Categories}}*/}}
+{{/*        &nbsp;<a href="/c/{{$cat.Slug}}">{{$cat.Name}}</a>*/}}
+{{/*        {{end}}*/}}
         <i class="iconfont icon-wenjianjia"></i>
-        {{range $catIndex, $cat := $elem.Categories}}
-        &nbsp;<a href="/c/{{$cat.Slug}}">{{$cat.Name}}</a>
-        {{end}}
+        &nbsp;{{$elem.CategoryName}}
       </span>
       <span>
         <i class="iconfont icon-riqi"></i>
-        &nbsp;{{$elem.CreationTime}}
+        &nbsp;{{$elem.CreateAt}}
       </span>
       <span>
         <i class="iconfont icon-yanjing"></i>

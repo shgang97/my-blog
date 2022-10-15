@@ -10,10 +10,10 @@ import "my-blog/config"
 
 type HomeResponse struct {
 	config.Viewer
-	Category []Category
-	Posts    []PostMore
-	Total    int
-	Page     int
-	Pages    []int
-	PageEnd  bool
+	Categories []Category
+	Posts      []PostMore
+	Total      int
+	Page       int
+	Pages      []int
+	PageEnd    bool
 }
