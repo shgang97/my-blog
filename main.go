@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/codyguo/godaemon"
 	"log"
 	"my-blog/common"
 	"my-blog/router"
