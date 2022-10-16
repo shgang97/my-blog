@@ -16,6 +16,7 @@ import (
 func Router() {
 	// 1. 页面 views 2. 数据（json） 3.静态资源
 	http.HandleFunc("/", views.HTML.Index)
+	http.HandleFunc("/c/", views.HTML.Category)
 	http.HandleFunc("/api/post", api.API.SaveAndUpdate)
 	// 静态资源路由
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
