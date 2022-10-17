@@ -10,19 +10,18 @@ import (
 
 /*
 @author: shg
-@since: 2022/10/15
+@since: 2022/10/16
 @desc: //TODO
 */
 
-func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
-	// 获取分类
+func GetPostsByCategoryId(categoryId, page, pageSize int) (*models.CategoryResponse, error) {
 	categories, err := dao.GetAllCategories()
 	if err != nil {
 		log.Println("GetAllIndexInfo failed:", err)
 		return nil, err
 	}
 	// 分页获取文章
-	posts, err := dao.GetPostsPage(page, pageSize)
+	posts, err := dao.GetPostsPageByCategoryId(categoryId, page, pageSize)
 	if err != nil {
 		log.Println("GetPostsPage failed:", err)
 		return nil, err
@@ -60,7 +59,7 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		UserName:    config.Config.Viewer.UserName,
 		UserDesc:    config.Config.Viewer.UserDesc,
 	}
-	total := dao.GetPostTotal()
+	total := dao.GetPostTotalByCategoryId(categoryId)
 	var pages []int
 	pageNum := ((total - 1) / pageSize) + 1
 	for i := 0; i < pageNum; i++ {
@@ -75,5 +74,10 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		Pages:      pages,
 		PageEnd:    page != pageNum,
 	}
-	return homeResponse, nil
+	categoryName := dao.GetCategoryNameById(categoryId)
+	categoryResponse := &models.CategoryResponse{
+		HomeResponse: homeResponse,
+		CategoryName: categoryName,
+	}
+	return categoryResponse, nil
 }
