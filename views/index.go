@@ -25,6 +25,7 @@ func (h *HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 		index.WriteError(w, err)
 	}
 	page, pageSize := 1, 10
+	r.ParseForm()
 	if pageStr := r.Form.Get("page"); pageStr != "" {
 		page, err = strconv.Atoi(pageStr)
 		if err != nil {
@@ -43,7 +44,7 @@ func (h *HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 	}
 	homeResponse, err := service.GetAllIndexInfo(page, pageSize)
 	if err != nil {
-		log.Println(err)
+		log.Println("views.index.Index:", err)
 		index.WriteError(w, errors.New("system error, please contact the administrator"))
 		return
 	}

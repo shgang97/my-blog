@@ -26,6 +26,10 @@ func (*HTMLApi) Category(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	page, pageSize := 1, 10
+	err = r.ParseForm()
+	if err != nil {
+		return
+	}
 	if pageStr := r.Form.Get("page"); pageStr != "" {
 		page, err = strconv.Atoi(pageStr)
 		if err != nil {

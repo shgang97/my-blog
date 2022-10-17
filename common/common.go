@@ -1,9 +1,12 @@
 package common
 
 import (
+	"encoding/json"
+	"io"
 	"log"
 	"my-blog/config"
 	"my-blog/models"
+	"net/http"
 	"sync"
 )
 
@@ -29,4 +32,39 @@ func LoadTemplate() {
 		w.Done()
 	}()
 	w.Wait()
+}
+
+func GetRequestJsonParam(r *http.Request) map[string]interface{} {
+	var params map[string]interface{}
+	body, _ := io.ReadAll(r.Body)
+	_ = json.Unmarshal(body, &params)
+	return params
+}
+
+func Success(w http.ResponseWriter, data interface{}) {
+	var result models.Result
+	result.Code = 200
+	result.Error = ""
+	result.Data = data
+	resultJson, err := json.Marshal(result)
+	if err != nil {
+		log.Println("failed to convert result to json:", err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(resultJson)
+	if err != nil {
+		log.Println("common success:", err)
+	}
+}
+
+func Fail(w http.ResponseWriter, err error) {
+	var result models.Result
+	result.Code = -999
+	result.Error = err.Error()
+	resultJson, _ := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(resultJson)
+	if err != nil {
+		log.Println(err)
+	}
 }
