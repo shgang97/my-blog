@@ -21,6 +21,9 @@ func Router() {
 	http.HandleFunc("/login", views.HTML.Login)
 	// 根据分类查询
 	http.HandleFunc("/c/", views.HTML.Category)
+	// 根据文章id获取文章
+	http.HandleFunc("/p/", views.HTML.Detail)
+
 	http.HandleFunc("/api/post", api.API.SaveAndUpdate)
 	http.HandleFunc("/api/login/account", api.API.Login)
 
