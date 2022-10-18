@@ -72,3 +72,16 @@ func GetPostTotalByCategoryId(categoryId int) int {
 	}
 	return count
 }
+
+func GetPostByPid(pid int) (*models.Post, error) {
+	row := Db.QueryRow("select * from post where pid = ?", pid)
+	var post models.Post
+	if row.Err() != nil {
+		return &post, row.Err()
+	}
+	err := row.Scan(&post.Pid, &post.Title, &post.Content, &post.Markdown, &post.CategoryId, &post.UserId, &post.ViewCount, &post.Type, &post.Slug, &post.CreateAt, &post.UpdateAt)
+	if err != nil {
+		return &post, err
+	}
+	return &post, nil
+}
