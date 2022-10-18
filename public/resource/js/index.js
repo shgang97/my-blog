@@ -60,7 +60,7 @@ function loginLogic() {
         // md5加密
         var MD5Passwd = new Hashes.MD5().hex(passwd + SALT);
         $.ajax({
-            url: "http://localhost:8080/api/login/account",
+            url: "/api/login/account",
             data: JSON.stringify({username: name, password: passwd, type: "account", autologin: false}),
             contentType: "application/json",
             type: "POST",
