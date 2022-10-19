@@ -11,9 +11,9 @@
     UserName = "shgang"
     UserDesc = "后端开发/国际米兰球迷<br/>a self-taught passionate Java developer from China🇨🇳"
 [system]
-    CdnURL = ""
-	QiniuAccessKey = ""
-	QiniuSecretKey = ""
+    CdnURL = "https://static.mszlu.com/goblog/es6/md-assets"
+	QiniuAccessKey = "s7XYXd9Z6TqeL7l2M4PEfs8kbhlVsuP9W9H6RnOm"
+	QiniuSecretKey = "CNYUlFTarXay7gieYLcl5-lkbemcsBPCdfBfuurf"
 	Valine = true
 	ValineAppId = "j8ELbjeA487uingrummes-gzGzoHsz"
 	ValineAppKey = "OT6bYtVpY1456lggrTaMUuW"

@@ -48,6 +48,7 @@ function uploadImage(file, cb) {
     type: "GET",
     contentType: "application/json",
     success: function (res) {
+      return alert(1)
       if (res.code !== 200) return alert(res.error);
       const token = res.data;
       const observable = qiniu.upload(file, "goblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
@@ -74,7 +75,7 @@ function uploadImage(file, cb) {
 
 function getArticleItem(id) {
   $.ajax({
-    url: "/api/v1/post/" + id,
+    url: "/api/post/" + id,
     type: "GET",
     contentType: "application/json",
     success: function (res) {
@@ -132,22 +133,25 @@ function publishHandler() {
   ArticleItem.title = headInput.val();
   if (!ArticleItem.title) return $(".publish-tip").text("请输入标题");
   ArticleItem.markdown = MdEditor.getMarkdown();
-  if (!ArticleItem.markdown) return $(".publish-tip").text("正文");
+  if (!ArticleItem.markdown) return $(".publish-tip").text("请输入正文");
+  console.log("发布文章")
   ArticleItem.content = MdEditor.getPreviewedHTML();
 
   $.ajax({
-    url: "/api/v1/post",
-    type: ArticleItem.pid ? "PUT" : "POST",
+    url: "/api/post",
+    type: ArticleItem.Pid ? "PUT" : "POST",
     contentType: "application/json",
     data: JSON.stringify(ArticleItem),
     success: function (res) {
-      if (res.code !== 200) return alert(res.error);
-      if (ArticleItem.pid) return $(".publish-tip").text("更新成功");
+      if (res.code !== 200) {
+        return alert(res.error);
+      }
+      if (ArticleItem.Pid) return $(".publish-tip").text("更新成功");
       ArticleItem = res.data || {};
-      if (!ArticleItem.pid) {
+      if (!ArticleItem.Pid) {
         clearHandler();
       }
-      location.search = "?id=" + ArticleItem.pid;
+      location.href = "/p/" + ArticleItem.Pid;
     },
     beforeSend: setAjaxToken,
   });
