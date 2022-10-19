@@ -12,7 +12,7 @@ import (
 */
 
 func GetUserNameById(id int) string {
-	row := Db.QueryRow("select name from user where id = ?", id)
+	row := Db.QueryRow("select user_name from user where id = ?", id)
 	if row.Err() != nil {
 		log.Println(row.Err())
 	}

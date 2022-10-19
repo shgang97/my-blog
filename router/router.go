@@ -23,8 +23,14 @@ func Router() {
 	http.HandleFunc("/c/", views.HTML.Category)
 	// 根据文章id获取文章
 	http.HandleFunc("/p/", views.HTML.Detail)
-
+	// 写作页面
+	http.HandleFunc("/writing/", views.HTML.Writing)
+	// 发布文章
 	http.HandleFunc("/api/post", api.API.SaveAndUpdate)
+	// 更新文章
+	http.HandleFunc("/api/post/", api.API.GetPost)
+	// 获取发布后的文章
+	//http.HandleFunc("/writing/?id", views.HTML.GetPost)
 	http.HandleFunc("/api/login/account", api.API.Login)
 
 	// 静态资源路由

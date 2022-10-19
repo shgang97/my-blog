@@ -2,6 +2,7 @@ package service
 
 import (
 	"html/template"
+	"log"
 	"my-blog/config"
 	"my-blog/dao"
 	"my-blog/models"
@@ -42,4 +43,21 @@ func GetPostDetail(pid int) (*models.PostRes, error) {
 		Article: postMore,
 	}
 	return postRes, nil
+}
+
+func Write() (*models.WritingRes, error) {
+	var wr models.WritingRes
+	wr.Title = config.Config.Viewer.Title
+	wr.CdnURL = config.Config.System.CdnUrl
+	categories, err := dao.GetAllCategories()
+	if err != nil {
+		log.Println("Write:", err)
+		return nil, err
+	}
+	wr.Categories = categories
+	return &wr, nil
+}
+
+func SavePost(post *models.Post) {
+	dao.SavePost(post)
 }
