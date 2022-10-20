@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"my-blog/common"
 	"my-blog/models"
@@ -62,7 +63,9 @@ func (api *Api) SaveAndUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
+
 	path := r.URL.Path
+	fmt.Println("path = ", path)
 	pid, err := strconv.Atoi(strings.TrimPrefix(path, "/api/post/"))
 	if err != nil {
 		log.Println(err)
@@ -73,5 +76,6 @@ func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
+	fmt.Println("success...")
 	common.Success(w, post)
 }
