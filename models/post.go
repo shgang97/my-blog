@@ -35,6 +35,7 @@ type PostMore struct {
 	Title        string
 	Slug         string
 	Content      template.HTML
+	Markdown     string
 	CategoryId   int
 	CategoryName string
 	UserId       int

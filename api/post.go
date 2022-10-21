@@ -36,14 +36,13 @@ func (api *Api) SaveAndUpdate(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		// add
 		params := common.GetRequestJsonParam(r)
-		categoryId, _ := strconv.Atoi(params["categoryId"].(string))
-		content := params["content"].(string)
-		markdown := params["markdown"].(string)
-		slug := params["slug"].(string)
-		title := params["title"].(string)
-		postType := int(params["type"].(float64))
+		categoryId, _ := strconv.Atoi(params["CategoryId"].(string))
+		content := params["Content"].(string)
+		markdown := params["Markdown"].(string)
+		slug := params["Slug"].(string)
+		title := params["Title"].(string)
+		postType := int(params["Type"].(float64))
 		post := &models.Post{
-			Pid:        -1,
 			Title:      title,
 			Content:    content,
 			Markdown:   markdown,
@@ -55,10 +54,35 @@ func (api *Api) SaveAndUpdate(w http.ResponseWriter, r *http.Request) {
 			CreateAt:   time.Now(),
 			UpdateAt:   time.Now(),
 		}
-		service.SavePost(post)
+		pid := service.SavePost(post)
+		post.Pid = pid
 		common.Success(w, post)
 	case http.MethodPut:
 		// update
+		params := common.GetRequestJsonParam(r)
+		pid := int(params["Pid"].(float64))
+		categoryId, _ := strconv.Atoi(params["CategoryId"].(string))
+		content := params["Content"].(string)
+		markdown := params["Markdown"].(string)
+		slug := params["Slug"].(string)
+		title := params["Title"].(string)
+		postType := int(params["Type"].(float64))
+		viewCount := int(params["ViewCount"].(float64))
+		post := &models.Post{
+			Pid:        pid,
+			Title:      title,
+			Content:    content,
+			Markdown:   markdown,
+			CategoryId: categoryId,
+			UserId:     userId,
+			ViewCount:  viewCount,
+			Type:       postType,
+			Slug:       slug,
+			CreateAt:   time.Now(),
+			UpdateAt:   time.Now(),
+		}
+		service.UpdatePost(post)
+		common.Success(w, post)
 	}
 }
 
