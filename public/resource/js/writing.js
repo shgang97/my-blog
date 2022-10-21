@@ -38,19 +38,21 @@ function uploadImage(file, cb) {
   const config = {
     useCdnDomain: true,
     //自行去改七牛云的空间区域的配置
-    region: qiniu.region.z1
+    region: qiniu.region.z0
   };
   const putExtra = {
   };
   // 异步获取临时密钥
   $.ajax({
-    url: "/api/v1/qiniu/token",
+    url: "/api/qiniu/token",
     type: "GET",
     contentType: "application/json",
     success: function (res) {
       if (res.code !== 200) return alert(res.error);
       const token = res.data;
-      const observable = qiniu.upload(file, "goblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
+      console.log("token = ", token)
+      const path = "blog/upload/" + Date.now() + "_";
+      const observable = qiniu.upload(file, path + file.name, token, putExtra, config)
       const observer = {
         next(res){
           // ...
@@ -60,7 +62,7 @@ function uploadImage(file, cb) {
         },
         complete(res){
           console.log(res)
-          cb("https://static.mszlu.com/" + res.key)
+          cb("http://rk3udllz3.hd-bkt.clouddn.com/" + res.key)
         }
       }
       const subscription = observable.subscribe(observer) // 上传开始
