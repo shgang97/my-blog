@@ -1,7 +1,7 @@
 package views
 
 import (
-	"errors"
+	"fmt"
 	"log"
 	"my-blog/common"
 	"my-blog/service"
@@ -21,7 +21,6 @@ func (*HTMLApi) Detail(w http.ResponseWriter, r *http.Request) {
 	// 获取路径参数
 	path := r.URL.Path
 	pIdStr := strings.TrimPrefix(path, "/p/")
-	//pIdStr = strings.TrimSuffix(pIdStr, ".html")
 	pId, err := strconv.Atoi(pIdStr)
 	if err != nil {
 		log.Println("convert type string to type int failed:", err)
@@ -30,8 +29,10 @@ func (*HTMLApi) Detail(w http.ResponseWriter, r *http.Request) {
 	}
 	postRes, err := service.GetPostDetail(pId)
 	if err != nil {
-		log.Println(err)
-		detail.WriteError(w, errors.New("detail: system error due to category, please contact the administrator"))
+		log.Println("(*HTMLApi) Detail:", err)
+		//http.Redirect(w, r, "/", http.StatusSeeOther)
+		errMsg := fmt.Sprintf("not exist post: pid[%d]", pId)
+		http.Error(w, errMsg, http.StatusNotFound)
 		return
 	}
 	detail.WriteData(w, postRes)
