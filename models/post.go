@@ -63,8 +63,8 @@ type PostRe struct {
 }
 
 type SearchRes struct {
-	Pid   int    `orm:"pid" json:"pid"`     // 文章ID
-	Title string `orm:"title" json:"title"` // 文章标题
+	Pid   int    `json:"pid"`   // 文章ID
+	Title string `json:"title"` // 文章标题
 }
 
 type PostRes struct {
