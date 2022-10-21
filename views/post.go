@@ -31,7 +31,7 @@ func (*HTMLApi) Detail(w http.ResponseWriter, r *http.Request) {
 	postRes, err := service.GetPostDetail(pId)
 	if err != nil {
 		log.Println(err)
-		detail.WriteError(w, errors.New("system error due to category, please contact the administrator"))
+		detail.WriteError(w, errors.New("detail: system error due to category, please contact the administrator"))
 		return
 	}
 	detail.WriteData(w, postRes)

@@ -28,6 +28,7 @@ func GetPostDetail(pid int) (*models.PostRes, error) {
 		Title:        post.Title,
 		Slug:         post.Slug,
 		Content:      template.HTML(post.Content),
+		Markdown:     post.Markdown,
 		CategoryId:   post.CategoryId,
 		CategoryName: categoryName,
 		UserId:       post.UserId,
@@ -58,6 +59,10 @@ func Write() (*models.WritingRes, error) {
 	return &wr, nil
 }
 
-func SavePost(post *models.Post) {
-	dao.SavePost(post)
+func SavePost(post *models.Post) int {
+	return dao.SavePost(post)
+}
+
+func UpdatePost(post *models.Post) {
+	dao.UpdatePost(post)
 }
