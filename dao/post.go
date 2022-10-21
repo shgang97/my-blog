@@ -136,3 +136,22 @@ func UpdatePost(post *models.Post) {
 		return
 	}
 }
+
+func GetPostsByContent(keywords string) ([]models.SearchRes, error) {
+	rows, err := Db.Query("select pid, title from post where content like ?", "%"+keywords+"%")
+	if err != nil {
+		log.Println("failed to query from table post by categoryId:", err)
+		return nil, err
+	}
+	var searchList []models.SearchRes
+	for rows.Next() {
+		var searchRes models.SearchRes
+		err := rows.Scan(&searchRes.Pid, &searchRes.Title)
+		if err != nil {
+			log.Println("failed to convert to Post:", err)
+			return nil, err
+		}
+		searchList = append(searchList, searchRes)
+	}
+	return searchList, nil
+}

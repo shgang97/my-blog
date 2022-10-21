@@ -182,6 +182,7 @@ function initPigeSort() {
 }
 
 function initSearch() {
+    console.log("search...")
     var timer = null;
     var searchList = [];
     var drop = $(".search-drop");
@@ -199,17 +200,17 @@ function initSearch() {
     function searchHandler(val) {
         if (!val) return (searchList = []);
         $.ajax({
-            url: "http://localhost:5005/api/search?keywords=" + val,// TODO 生产环境需要将/api反向代理到5005端口，开发环境暂时未做代理，调试时接口需要写成 http://localhost:5005/api/search?keywords=
+            url: "/api/search?keywords=" + val,// TODO 生产环境需要将/api反向代理到5005端口，开发环境暂时未做代理，调试时接口需要写成 http://localhost:5005/api/search?keywords=
             contentType: "application/json",
             success: function (res) {
-                if (res.success !== true) return alert(res.errorMessage);
+                if (res.code !== 200) return alert(res.error);
                 var data = res.data || [];
                 searchList = [];
                 if (data.length === 0) return drop.html("");
                 for (var i = 0, len = data.length; i < len; i++) {
                     var item = data[i];
                     searchList.push(
-                        "<a href='/" + item.year + "/" + item.month + "/" + item.slug + "'>" + item.title + "<a/>"
+                        "<a href='/p/" + item.pid + "'>" + item.title + "<a/>"
                     );
                     drop.show().html(searchList.join(""));
                 }

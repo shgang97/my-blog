@@ -66,3 +66,11 @@ func SavePost(post *models.Post) int {
 func UpdatePost(post *models.Post) {
 	dao.UpdatePost(post)
 }
+
+func SearchPost(keywords string) ([]models.SearchRes, error) {
+	searchList, err := dao.GetPostsByContent(keywords)
+	if err != nil {
+		return nil, err
+	}
+	return searchList, nil
+}

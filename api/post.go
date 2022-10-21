@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 	"my-blog/common"
 	"my-blog/models"
@@ -87,7 +86,6 @@ func (api *Api) SaveAndUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
-
 	path := r.URL.Path
 	pid, err := strconv.Atoi(strings.TrimPrefix(path, "/api/post/"))
 	if err != nil {
@@ -99,6 +97,16 @@ func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	fmt.Println("success...")
 	common.Success(w, post)
+}
+
+func (*Api) SearchPost(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	keywords := r.Form.Get("keywords")
+	searchList, err := service.SearchPost(keywords)
+	if err != nil {
+		log.Println(err)
+		common.Fail(w, err)
+	}
+	common.Success(w, searchList)
 }

@@ -2,7 +2,6 @@ package views
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"my-blog/common"
 	"my-blog/service"
@@ -43,7 +42,6 @@ func (h *HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	path := r.URL.Path
-	fmt.Println("path = ", path)
 	slug := ""
 	if strings.Contains(path, "/slug/") {
 		slug = strings.TrimPrefix(path, "/slug/")
