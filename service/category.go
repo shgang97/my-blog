@@ -32,14 +32,14 @@ func GetPostsByCategoryId(categoryId, page, pageSize int) (*models.CategoryRespo
 		if len(content) > 100 {
 			content = content[:100]
 		}
-		categoryName := dao.GetCategoryNameById(post.Pid)
+		categoryName := dao.GetCategoryNameById(categoryId)
 		userName := dao.GetUserNameById(post.UserId)
 		postMores = append(postMores, models.PostMore{
 			Pid:          post.Pid,
 			Title:        post.Title,
 			Slug:         post.Slug,
 			Content:      template.HTML(post.Content),
-			CategoryId:   post.CategoryId,
+			CategoryId:   categoryId,
 			CategoryName: categoryName,
 			UserId:       post.UserId,
 			UserName:     userName,

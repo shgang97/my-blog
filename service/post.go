@@ -21,7 +21,7 @@ func GetPostDetail(pid int) (*models.PostRes, error) {
 		return nil, err
 	}
 	var postMore models.PostMore
-	categoryName := dao.GetCategoryNameById(post.Pid)
+	categoryName := dao.GetCategoryNameById(post.CategoryId)
 	userName := dao.GetUserNameById(post.UserId)
 	postMore = models.PostMore{
 		Pid:          post.Pid,

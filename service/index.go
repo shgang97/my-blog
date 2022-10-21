@@ -33,7 +33,7 @@ func GetAllIndexInfo(slug string, page, pageSize int) (*models.HomeResponse, err
 		if len(content) > 100 {
 			content = content[:100]
 		}
-		categoryName := dao.GetCategoryNameById(post.Pid)
+		categoryName := dao.GetCategoryNameById(post.CategoryId)
 		userName := dao.GetUserNameById(post.UserId)
 		postMores = append(postMores, models.PostMore{
 			Pid:          post.Pid,
