@@ -10,9 +10,11 @@
             </h1>
             <!-- 导航 -->
             <ul class="header-nav">
-                {{range $index,$elem := .Navigation}} {{if isODD $index}}
-                <li><a href="{{getNextName $.Navigation $index}}">{{$elem}}</a></li>
-                {{end}} {{end}}
+                {{range $index,$elem := .Navigation}}
+                    {{if isODD $index}}
+                        <li><a href="{{getNextName $.Navigation $index}}">{{$elem}}</a></li>
+                    {{end}}
+                {{end}}
             </ul>
         </div>
         <div class="header-right">

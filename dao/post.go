@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"database/sql"
 	"log"
 	"my-blog/models"
 )
@@ -11,9 +12,15 @@ import (
 @desc: //TODO
 */
 
-func GetPostsPage(page int, pageSize int) ([]models.Post, error) {
+func GetPostsPage(slug string, page int, pageSize int) ([]models.Post, error) {
 	page = (page - 1) * pageSize
-	rows, err := Db.Query("select * from post limit ?,?", page, pageSize)
+	var err error
+	var rows *sql.Rows
+	if slug == "" {
+		rows, err = Db.Query("select * from post limit ?, ?", page, pageSize)
+	} else {
+		rows, err = Db.Query("select * from post where slug=? limit ?, ?", slug, page, pageSize)
+	}
 	if err != nil {
 		log.Println("failed to query from table post:", err)
 		return nil, err
@@ -31,8 +38,13 @@ func GetPostsPage(page int, pageSize int) ([]models.Post, error) {
 	return posts, nil
 }
 
-func GetPostTotal() int {
-	row := Db.QueryRow("select count(0) from post")
+func GetPostTotal(slug string) int {
+	var row *sql.Row
+	if slug == "" {
+		row = Db.QueryRow("select count(0) from post")
+	} else {
+		row = Db.QueryRow("select count(0) from post where slug=?", slug)
+	}
 	var count int
 	err := row.Scan(&count)
 	if err != nil {
@@ -84,6 +96,25 @@ func GetPostByPid(pid int) (*models.Post, error) {
 		return &post, err
 	}
 	return &post, nil
+}
+
+func GetAllPosts() ([]models.Post, error) {
+	rows, err := Db.Query("select * from post")
+	if err != nil {
+		log.Println("failed to query from table post by categoryId:", err)
+		return nil, err
+	}
+	var posts []models.Post
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(&post.Pid, &post.Title, &post.Content, &post.Markdown, &post.CategoryId, &post.UserId, &post.ViewCount, &post.Type, &post.Slug, &post.CreateAt, &post.UpdateAt)
+		if err != nil {
+			log.Println("failed to convert to Post:", err)
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	return posts, nil
 }
 
 func SavePost(post *models.Post) int {

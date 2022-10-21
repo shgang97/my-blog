@@ -25,11 +25,14 @@ func Router() {
 	http.HandleFunc("/p/", views.HTML.Detail)
 	// 写作页面
 	http.HandleFunc("/writing/", views.HTML.Writing)
-	// 发布文章
+	// 归档页面
+	http.HandleFunc("/pigeonhole", views.HTML.Pigeonhole)
+	// 发布和更新文章
 	http.HandleFunc("/api/post", api.API.SaveAndUpdate)
-	// 更新文章
-	http.HandleFunc("/api/post/", api.API.GetPost)
 	// 获取发布后的文章
+	http.HandleFunc("/api/post/", api.API.GetPost)
+	//	上传图片
+	http.HandleFunc("/api/qiniu/token", api.API.GetQiniuToken)
 	//http.HandleFunc("/writing/?id", views.HTML.GetPost)
 	http.HandleFunc("/api/login/account", api.API.Login)
 

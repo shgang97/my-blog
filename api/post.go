@@ -89,7 +89,6 @@ func (api *Api) SaveAndUpdate(w http.ResponseWriter, r *http.Request) {
 func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
 
 	path := r.URL.Path
-	fmt.Println("path = ", path)
 	pid, err := strconv.Atoi(strings.TrimPrefix(path, "/api/post/"))
 	if err != nil {
 		log.Println(err)

@@ -14,7 +14,7 @@ import (
 @desc: //TODO
 */
 
-func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
+func GetAllIndexInfo(slug string, page, pageSize int) (*models.HomeResponse, error) {
 	// 获取分类
 	categories, err := dao.GetAllCategories()
 	if err != nil {
@@ -22,7 +22,7 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		return nil, err
 	}
 	// 分页获取文章
-	posts, err := dao.GetPostsPage(page, pageSize)
+	posts, err := dao.GetPostsPage(slug, page, pageSize)
 	if err != nil {
 		log.Println("GetPostsPage failed:", err)
 		return nil, err
@@ -60,7 +60,7 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		UserName:    config.Config.Viewer.UserName,
 		UserDesc:    config.Config.Viewer.UserDesc,
 	}
-	total := dao.GetPostTotal()
+	total := dao.GetPostTotal(slug)
 	var pages []int
 	pageNum := ((total - 1) / pageSize) + 1
 	for i := 0; i < pageNum; i++ {
