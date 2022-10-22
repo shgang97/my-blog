@@ -36,9 +36,9 @@ type System struct {
 	QiniuAccessKey  string
 	QiniuSecretKey  string
 	Valine          bool
-	ValineAppid     string
-	ValineAppkey    string
-	ValineServerUrl string
+	ValineAppId     string
+	ValineAppKey    string
+	ValineServerURL string
 }
 
 var Config *tomlConfig

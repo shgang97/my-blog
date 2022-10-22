@@ -14,6 +14,6 @@
 	QiniuAccessKey = "s7XYXd9Z6TqeL7l2M4PEfs8kbhlVsuP9W9H6RnOm"
 	QiniuSecretKey = "CNYUlFTarXay7gieYLcl5-lkbemcsBPCdfBfuurf"
 	Valine = true
-	ValineAppId = "I5KYvHhNhJpxeu2P0qY1oU7O-gzGzoHsz"
-	ValineAppKey = "JG2lVoNKxgLFPj7lrb2VVgtr"
-	ValineServerURL = "https://i5kyvhhn.lc-cn-n1-shared.com"
+	ValineAppId = "mLT1LAg30xLSQob91AaIyCYF-gzGzoHsz"
+	ValineAppKey = "wrk1vSwKypa1HIEmSSOgRTD2"
+	ValineServerURL = "https://mlt1lag3.lc-cn-n1-shared.com"
