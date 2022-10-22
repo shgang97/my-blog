@@ -320,6 +320,19 @@ header {
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* REGISTER */
+.register-btn{
+  border: 0;
+  background-color: #448ef6;
+  color: #fff;
+  width: 80px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
 /* CONTAINER */
 .container {
   display: flex;

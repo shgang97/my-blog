@@ -182,7 +182,6 @@ function initPigeSort() {
 }
 
 function initSearch() {
-    console.log("search...")
     var timer = null;
     var searchList = [];
     var drop = $(".search-drop");
