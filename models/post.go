@@ -70,6 +70,7 @@ type SearchRes struct {
 type PostRes struct {
 	config.Viewer
 	config.System
+	config.Comment
 	Article PostMore
 }
 

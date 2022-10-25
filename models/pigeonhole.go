@@ -11,6 +11,7 @@ import "my-blog/config"
 type PigeonholeRes struct {
 	config.Viewer
 	config.System
+	config.Comment
 	Categories []Category
 	Lines      map[string][]Post
 }
