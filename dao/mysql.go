@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"my-blog/config"
 	"net/url"
 	"time"
 )
@@ -23,7 +24,11 @@ var Db MyDb
 
 func init() {
 	var err error
-	dataSourceName := fmt.Sprintf("root:root@tcp(127.0.0.1:3306)/blog_system?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	ip := config.Config.DataSource.IP
+	port := config.Config.DataSource.Port
+	userName := config.Config.DataSource.UserName
+	password := config.Config.DataSource.Password
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/blog_system?charset=utf8&loc=%s&parseTime=true", userName, password, ip, port, url.QueryEscape("Asia/Shanghai"))
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		log.Println("failed to connect, err: ", err)

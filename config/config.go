@@ -12,8 +12,10 @@ import (
 )
 
 type tomlConfig struct {
-	Viewer Viewer
-	System System
+	Viewer     Viewer
+	System     System
+	DataSource DataSource
+	Comment    Comment
 }
 
 // Viewer SystemConfig 从配置文件读取
@@ -29,12 +31,26 @@ type Viewer struct {
 }
 
 type System struct {
-	AppName         string
-	Version         float32
-	CurrentDir      string
-	CdnUrl          string
-	QiniuAccessKey  string
-	QiniuSecretKey  string
+	AppName        string
+	Version        float32
+	CurrentDir     string
+	CdnUrl         string
+	QiniuAccessKey string
+	QiniuSecretKey string
+	//Valine          bool
+	//ValineAppId     string
+	//ValineAppKey    string
+	//ValineServerURL string
+}
+
+type DataSource struct {
+	IP       string
+	Port     string
+	UserName string
+	Password string
+}
+
+type Comment struct {
 	Valine          bool
 	ValineAppId     string
 	ValineAppKey    string
