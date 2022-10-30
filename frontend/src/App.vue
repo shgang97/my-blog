@@ -1,21 +1,18 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Index></Index>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios'
-
+import Index from '@/view/Index';
 export default {
   name: 'App',
   created: function () {
-    axios.get('http://localhost:8081/').then((res) => {
+    this.axios.get('http://localhost:8081/').then((res) => {
       console.log(res);
     });
   },
   components: {
-    HelloWorld
+    Index
   }
 }
 </script>
