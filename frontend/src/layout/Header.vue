@@ -1,35 +1,40 @@
 <template>
-  <div class="header-wrap">
-    <!-- logo -->
-    <div class="header-left">
-      <h1>
+  <header class="main-header main-header visible">
+    <div class="container">
+      <div class="header-left">
+        <!-- logo -->
         <a href="/">
-          <img class="logo-img" src="/images/logo.png" alt="-LOGO" />
+          <img class="logo-img" src="/images/logo.png" alt="shgang's blog"/>
         </a>
-      </h1>
-      <!-- 导航 -->
-      <ul class="header-nav">
-        <li><a href=""></a></li>
-      </ul>
-    </div>
-    <div class="header-right">
-      <div class="header-search">
-        <input id="search-input" type="text" placeholder="搜索一下" />
-        <i class="iconfont icon-search"></i>
-        <div class="search-drop"></div>
-      </div>
-      <a class="login-action" href="/login">
-        <button class="login-btn">登录</button>
-      </a>
-      <div class="login-end">
-        <p class="iconfont icon-yonghu"><span class="login-username"></span></p>
-        <ul class="login-drop">
-          <a href="/writing"><li>写作</li></a>
-          <li class="login-out">退出登录</li>
+        <!-- 导航 -->
+        <ul role="navigation" class="header-nav">
+          <li><a href="/">首页</a></li>
+          <li><a href="/">首页</a></li>
+          <li><a href="/">首页</a></li>
+          <li><a href="/">首页</a></li>
         </ul>
       </div>
+      <div class="header-right">
+        <div class="header-search">
+          <input id="search-input" type="text" placeholder="搜索一下"/>
+          <i class="iconfont icon-search"></i>
+          <div class="search-drop"></div>
+        </div>
+        <a class="login-action" href="/login">
+          <button class="login-btn">登录</button>
+        </a>
+        <div class="login-end">
+          <p class="iconfont icon-yonghu"><span class="login-username"></span></p>
+          <ul class="login-drop">
+            <a href="/writing">
+              <li>写作</li>
+            </a>
+            <li class="login-out">退出登录</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -52,46 +57,52 @@ header {
   z-index: 99;
   top: 0;
 }
+
 .logo-img {
   /*height: 100px;*/
   max-height: 60px;
 }
-.header-wrap {
+
+.container {
   width: 1080px;
   height: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
-.header-wrap ul {
+
+.container ul {
   list-style: none;
 }
+
 .header-left,
 .header-right {
   height: 100%;
   display: flex;
   align-items: center;
 }
-.header-wrap h1 {
-  font-size: 30px;
-  font-weight: bold;
-}
-.header-wrap a {
+
+.container a {
   color: #333;
 }
+
 .header-nav {
   display: flex;
   margin-left: 20px;
 }
+
 .header-nav li {
   margin-left: 20px;
 }
+
 .header-nav .active {
   color: #448ef6;
 }
+
 .header-search {
   position: relative;
 }
+
 .header-search input {
   border: 1px solid #f1f1f1;
   background-color: transparent;
@@ -102,12 +113,14 @@ header {
   width: 230px;
   color: #86909c;
 }
+
 .header-search i {
   position: absolute;
   right: 10px;
   top: 8px;
   color: #86909c;
 }
+
 .search-drop {
   display: none;
   position: absolute;
@@ -121,6 +134,7 @@ header {
   min-width: 270px;
   white-space: nowrap;
 }
+
 .search-drop a {
   display: block;
   padding: 0 12px;
@@ -130,6 +144,7 @@ header {
   cursor: pointer;
   text-decoration: none;
 }
+
 .search-drop a:hover {
   background-color: #f1f1f1;
 }
