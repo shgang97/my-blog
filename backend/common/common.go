@@ -44,7 +44,7 @@ func GetRequestJsonParam(r *http.Request) map[string]interface{} {
 func Success(w http.ResponseWriter, data interface{}) {
 	var result models2.Result
 	result.Code = 200
-	result.Error = ""
+	result.Msg = ""
 	result.Data = data
 	resultJson, err := json.Marshal(result)
 	if err != nil {
@@ -60,7 +60,7 @@ func Success(w http.ResponseWriter, data interface{}) {
 func Fail(w http.ResponseWriter, err error) {
 	var result models2.Result
 	result.Code = -999
-	result.Error = err.Error()
+	result.Msg = err.Error()
 	resultJson, _ := json.Marshal(result)
 	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(resultJson)

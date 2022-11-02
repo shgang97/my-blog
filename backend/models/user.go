@@ -9,12 +9,14 @@ import "time"
 */
 
 type User struct {
-	Id       int       `json:"id"`
-	UserName string    `json:"userName"`
-	Password string    `json:"password"`
-	Avatar   string    `json:"avatar"`
-	CreateAt time.Time `json:"createAt"`
-	UpdateAt time.Time `json:"updateAt"`
+	Id         int       `json:"id"`
+	UserName   string    `json:"userName"`
+	Avatar     string    `json:"avatar"`
+	Email      string    `json:"email"`
+	Password   string    `json:"password"`
+	Status     int       `json:"status"`
+	CreateTime time.Time `json:"createTime"`
+	LastLogin  time.Time `json:"lastLogin"`
 }
 
 type UserInfo struct {
