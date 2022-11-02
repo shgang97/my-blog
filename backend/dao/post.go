@@ -88,16 +88,16 @@ func GetPostTotalByCategoryId(categoryId int) int {
 }
 
 func GetPostByPid(pid int) (*models.Post, error) {
-	//row := Db.QueryRow("select * from post where pid = ?", pid)
-	//var post models.Post
-	//if row.Err() != nil {
-	//	return &post, row.Err()
-	//}
-	//err := row.Scan(&post.Pid, &post.Title, &post.Content, &post.Markdown, &post.CategoryId, &post.UserId, &post.ViewCount, &post.Type, &post.Slug, &post.CreateAt, &post.UpdateAt)
-	//if err != nil {
-	//	return &post, err
-	//}
-	return nil, nil
+	row := Db.QueryRow("select * from post where id = ?", pid)
+	var post models.Post
+	if row.Err() != nil {
+		return nil, row.Err()
+	}
+	err := row.Scan(&post.Id, &post.UserId, &post.Title, &post.Description, &post.Content, &post.CreateTime, &post.UpdateTime, &post.Status)
+	if err != nil {
+		return nil, err
+	}
+	return &post, nil
 }
 
 func GetAllPosts() ([]models.Post, error) {
@@ -120,15 +120,14 @@ func GetAllPosts() ([]models.Post, error) {
 }
 
 func SavePost(post *models.Post) int {
-	//res, err := Db.Exec("insert into post (title, content, markdown, category_id, user_id, view_count, type, slug, create_at, update_at) "+
-	//	"values (?,?,?,?,?,?,?,?,?,?)", post.Title, post.Content, post.Markdown, post.CategoryId, post.UserId, post.ViewCount, post.Type, post.Slug, post.CreateAt, post.UpdateAt)
-	//if err != nil {
-	//	log.Println("insert post failed")
-	//	log.Println(err)
-	//}
-	//pid, _ := res.LastInsertId()
-	//return int(pid)
-	return 0
+	res, err := Db.Exec("insert into post (user_id, title, description, content, create_time, update_time, status) "+
+		"values (?,?,?,?,?,?,?)", post.UserId, post.Title, post.Description, post.Content, post.CreateTime, post.UpdateTime, post.Status)
+	if err != nil {
+		log.Println("insert post failed")
+		log.Println(err)
+	}
+	pid, _ := res.LastInsertId()
+	return int(pid)
 }
 
 func UpdatePost(post *models.Post) {
@@ -163,6 +162,7 @@ func GetPostsByPage(page int, pageSize int) ([]models.Post, error) {
 	page = (page - 1) * pageSize
 	var err error
 	var rows *sql.Rows
+	rows, err = Db.Query("select * from post limit ?, ?", page, pageSize)
 	if err != nil {
 		log.Println("failed to query from table post:", err)
 		return nil, err
@@ -181,7 +181,7 @@ func GetPostsByPage(page int, pageSize int) ([]models.Post, error) {
 }
 
 func GetPostTotal() int {
-	var row *sql.Row
+	row := Db.QueryRow("select count(0) from post")
 	var count int
 	err := row.Scan(&count)
 	if err != nil {

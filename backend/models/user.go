@@ -10,7 +10,7 @@ import "time"
 
 type User struct {
 	Id         int       `json:"id"`
-	UserName   string    `json:"userName"`
+	UserName   string    `json:"username"`
 	Avatar     string    `json:"avatar"`
 	Email      string    `json:"email"`
 	Password   string    `json:"password"`
@@ -21,6 +21,6 @@ type User struct {
 
 type UserInfo struct {
 	Id       int    `json:"id"`
-	UserName string `json:"userName"`
+	UserName string `json:"username"`
 	Avatar   string `json:"avatar"`
 }

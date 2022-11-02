@@ -3,9 +3,13 @@ package api
 import (
 	"log"
 	"my-blog/backend/common"
+	"my-blog/backend/models"
 	"my-blog/backend/service"
+	"my-blog/backend/util"
 	"net/http"
 	"strconv"
+	"strings"
+	"time"
 )
 
 /*
@@ -133,4 +137,49 @@ func (*Api) Posts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	common.Success(w, pagePost)
+}
+
+func (*Api) Detail(w http.ResponseWriter, r *http.Request) {
+	// 获取路径参数
+	path := r.URL.Path
+	pIdStr := strings.TrimPrefix(path, "/api/post/")
+	pId, err := strconv.Atoi(pIdStr)
+	if err != nil {
+		log.Println("convert type string to type int failed:", err)
+		return
+	}
+	post, err := service.GetPostDetail(pId)
+	if err != nil {
+		common.Fail(w, err)
+		return
+	}
+	common.Success(w, post)
+}
+
+func (*Api) Edit(w http.ResponseWriter, r *http.Request) {
+	// 获取用户id， 判断用户是否登录
+	token := r.Header.Get("Authorization")
+	_, claim, err := util.ParseToken(token)
+	if err != nil {
+		common.Fail(w, err)
+		log.Println(err)
+		return
+	}
+	userId := claim.Uid
+	params := common.GetRequestJsonParam(r)
+	content := params["content"].(string)
+	title := params["title"].(string)
+	description := params["description"].(string)
+	post := &models.Post{
+		UserId:      userId,
+		Title:       title,
+		Description: description,
+		Content:     content,
+		CreateTime:  time.Now(),
+		UpdateTime:  time.Now(),
+		Status:      "0",
+	}
+	pid := service.SavePost(post)
+	post.Id = pid
+	common.Success(w, post)
 }

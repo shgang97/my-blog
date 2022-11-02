@@ -14,7 +14,7 @@ import (
 
 type Post struct {
 	Id          int       `json:"id"`
-	UserId      string    `json:"userId"`
+	UserId      int       `json:"userId"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Content     string    `json:"content"`

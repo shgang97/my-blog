@@ -1,15 +1,15 @@
 module.exports = {
   publicPath: '/',
   devServer: {
+    host:'localhost',
+    port: 8081,
     proxy: {
-      '^/api': {
-        target: 'http://localhost:8080/',//接口的前缀
-        ws:true,//代理websocked
-        changeOrigin:true,//虚拟的站点需要更管origin
-        pathRewrite:{
-          '^/api':''//重写路径
-        }
+      '/api': {
+        target: 'http://localhost:8080',//要跨域的域名
+        secure: false, //如果是https接口，如要配置此参数
+        changeOrigin: true,//允许跨域
       }
     }
-  }
+  },
+  lintOnSave: false
 }

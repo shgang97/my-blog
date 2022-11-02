@@ -36,7 +36,9 @@ func Router() {
 	http.HandleFunc("/api/login", cors(api.API.Login))
 
 	// 文章列表
-	http.HandleFunc("/api/posts?page", cors(api.API.Posts))
+	http.HandleFunc("/api/posts", cors(api.API.Posts))
+	http.HandleFunc("/api/post/", cors(api.API.Detail))
+	http.HandleFunc("/api/post/edit", cors(api.API.Edit))
 
 	// 静态资源路由
 	//http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
