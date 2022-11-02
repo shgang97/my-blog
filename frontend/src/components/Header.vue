@@ -2,7 +2,7 @@
   <div class="m-content">
     <h3>欢迎来到MarkerHub的博客</h3>
     <div class="block">
-      <el-avatar :size="50" :src="user.avatar"></el-avatar>
+      <el-avatar :size="50" src="/images/avatar.png"></el-avatar>
       <div>{{ user.username }}</div>
     </div>
 

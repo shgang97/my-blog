@@ -53,9 +53,9 @@
             const _this = this
             this.$axios.post('/api/login', this.ruleForm).then(res => {
 
-              console.log(res.data)
-              const jwt = res.headers['authorization']
-              const userInfo = res.data.data
+              let loginRes = res.data.data;
+              const jwt = loginRes.token;
+              const userInfo = loginRes.userInfo;
 
               // 把数据共享出去
               _this.$store.commit("SET_TOKEN", jwt)
