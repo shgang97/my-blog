@@ -1,16 +1,12 @@
 <template>
-  <Index></Index>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
-<script>
-import Index from '@/view/Index';
-export default {
-  name: 'App',
-  components: {
-    Index
-  }
-}
-</script>
-
 <style>
+  #app {
+    max-width: 960px;
+    margin: 0 auto;
+  }
 </style>
