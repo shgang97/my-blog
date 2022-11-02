@@ -18,7 +18,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -33,7 +33,7 @@
 <script>
   import Header from "../components/Header";
   export default {
-    name: "BlogEdit.vue",
+    name: "PostEdit",
     components: {Header},
     data() {
       return {
@@ -63,7 +63,7 @@
           if (valid) {
 
             const _this = this
-            this.$axios.post('/blog/edit', this.ruleForm, {
+            this.$axios.post('/api/post/edit', this.ruleForm, {
               headers: {
                 "Authorization": localStorage.getItem("token")
               }
@@ -72,7 +72,7 @@
               _this.$alert('操作成功', '提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$router.push("/blogs")
+                  _this.$router.push("/posts")
                 }
               });
 
@@ -89,16 +89,16 @@
       }
     },
     created() {
-      const blogId = this.$route.params.blogId
-      console.log(blogId)
+      const postId = this.$route.params.postId
+      console.log(postId)
       const _this = this
-      if(blogId) {
-        this.$axios.get('/blog/' + blogId).then(res => {
-          const blog = res.data.data
-          _this.ruleForm.id = blog.id
-          _this.ruleForm.title = blog.title
-          _this.ruleForm.description = blog.description
-          _this.ruleForm.content = blog.content
+      if(postId) {
+        this.$axios.get('/post/' + postId).then(res => {
+          const post = res.data.data
+          _this.ruleForm.id = post.id
+          _this.ruleForm.title = post.title
+          _this.ruleForm.description = post.description
+          _this.ruleForm.content = post.content
         })
       }
 

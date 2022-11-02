@@ -24,7 +24,7 @@
                      :current-page="currentPage"
                      :page-size="pageSize"
                      :total="total"
-                     @current-change=page>
+                     @current-change=postPage>
       </el-pagination>
 
     </div>

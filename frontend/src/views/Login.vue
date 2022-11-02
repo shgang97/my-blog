@@ -64,7 +64,7 @@
               // 获取
               console.log(_this.$store.getters.getUser)
 
-              _this.$router.push("/blogs")
+              _this.$router.push("/posts")
             })
 
           } else {

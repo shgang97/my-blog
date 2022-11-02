@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
-import Blogs from '../views/Posts.vue'
-import BlogEdit from '../views/BlogEdit.vue'
-import BlogDetail from '../views/BlogDetail.vue'
+import Posts from '../views/Posts.vue'
+import PostEdit from '../views/PostEdit';
+import PostDetail from '../views/PostDetail';
 
 Vue.use(VueRouter)
 
@@ -11,12 +11,12 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: {name: "Blogs"}
+    redirect: {name: "Posts"}
   },
   {
-    path: '/blogs',
-    name: 'Blogs',
-    component: Blogs
+    path: '/posts',
+    name: 'Posts',
+    component: Posts
   },
   {
     path: '/login',
@@ -24,22 +24,22 @@ const routes = [
     component: Login
   },
   {
-    path: '/blog/add',
-    name: 'BlogAdd',
-    component: BlogEdit,
+    path: '/post/add',
+    name: 'PostAdd',
+    component: PostEdit,
     meta: {
       requireAuth: true
     }
   },
   {
-    path: '/blog/:blogId',
-    name: 'BlogDetail',
-    component: BlogDetail
+    path: '/post/:postId',
+    name: 'PostDetail',
+    component: PostDetail
   },
   {
-    path: '/blog/:blogId/edit',
-    name: 'BlogEdit',
-    component: BlogEdit,
+    path: '/post/:postId/edit',
+    name: 'PostEdit',
+    component: PostEdit,
     meta: {
       requireAuth: true
     }

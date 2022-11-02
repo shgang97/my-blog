@@ -48,7 +48,9 @@
 
         let result = md.render(post.content)
         _this.post.content = result
-        _this.ownPost = (post.userId === _this.$store.getters.getUser.id)
+        if (_this.$store.getters.getUser) {
+          _this.ownPost = (post.userId === _this.$store.getters.getUser.id)
+        }
 
       })
     }
