@@ -38,7 +38,6 @@
       const postId = this.$route.params.postId
       const _this = this
       this.$axios.get('/api/post/' + postId).then(res => {
-        console.log("res.data.data = ", res.data.data)
         const post = res.data.data
         _this.post.id = post.id
         _this.post.title = post.title

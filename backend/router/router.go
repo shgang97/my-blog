@@ -34,6 +34,7 @@ func Router() {
 	//http.HandleFunc("/api/qiniu/token", cors(api.API.GetQiniuToken))
 	//http.HandleFunc("/writing/?id", views.HTML.GetPost)
 	http.HandleFunc("/api/login", cors(api.API.Login))
+	http.HandleFunc("/api/logout", cors(api.API.Logout))
 
 	// 文章列表
 	http.HandleFunc("/api/posts", cors(api.API.Posts))

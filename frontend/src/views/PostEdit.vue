@@ -93,7 +93,7 @@
       console.log(postId)
       const _this = this
       if(postId) {
-        this.$axios.get('/post/' + postId).then(res => {
+        this.$axios.get('/api/post/' + postId).then(res => {
           const post = res.data.data
           _this.ruleForm.id = post.id
           _this.ruleForm.title = post.title

@@ -35,14 +35,13 @@
     methods: {
       logout() {
         const _this = this
-        _this.$axios.get("/logout", {
+        _this.$axios.get("/api/logout", {
           headers: {
             "Authorization": localStorage.getItem("token")
           }
         }).then(res => {
           _this.$store.commit("REMOVE_INFO")
           _this.$router.push("/login")
-
         })
       }
     },
