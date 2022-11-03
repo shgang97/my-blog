@@ -49,7 +49,7 @@
     methods: {
       postPage(currentPage) {
         const _this = this
-        _this.$axios.get("/api/posts", {params: {page: 1}}).then(res => {
+        _this.$axios.get("/api/posts", {params: {page: currentPage}}).then(res => {
           let PostRes = res.data.data
           _this.posts = PostRes.posts
           _this.currentPage = PostRes.page

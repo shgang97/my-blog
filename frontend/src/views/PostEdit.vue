@@ -68,7 +68,6 @@
                 "Authorization": localStorage.getItem("token")
               }
             }).then(res => {
-              console.log(res)
               _this.$alert('操作成功', '提示', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -90,7 +89,6 @@
     },
     created() {
       const postId = this.$route.params.postId
-      console.log(postId)
       const _this = this
       if(postId) {
         this.$axios.get('/api/post/' + postId).then(res => {

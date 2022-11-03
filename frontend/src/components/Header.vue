@@ -46,7 +46,7 @@
       }
     },
     created() {
-      if(this.$store.getters.getUser.username) {
+      if(this.$store.getters.getUser) {
         this.user.username = this.$store.getters.getUser.username
         this.user.avatar = this.$store.getters.getUser.avatar
 
