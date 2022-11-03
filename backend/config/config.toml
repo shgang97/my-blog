@@ -18,7 +18,7 @@
 	ValineAppKey = "wrk1vSwKypa1HIEmSSOgRTD2"
 	ValineServerURL = "https://mlt1lag3.lc-cn-n1-shared.com"
 [dataSource]
-    IP = "106.14.226.33"
+    IP = "localhost"
     Port = "3306"
     UserName = "root"
     Password = "root"

@@ -22,13 +22,13 @@ func GetUserNameById(id int) string {
 }
 
 func GetUser(userName, password string) *models.User {
-	row := Db.QueryRow("select * from user where user_name = ? and password = ?", userName, password)
+	row := Db.QueryRow("select * from user where username = ? and password = ?", userName, password)
 	if row.Err() != nil {
 		log.Println(row.Err())
 		return nil
 	}
 	var user models.User
-	err := row.Scan(&user.Id, &user.UserName, &user.Password, &user.Avatar, &user.CreateAt, &user.UpdateAt)
+	err := row.Scan(&user.Id, &user.UserName, &user.Avatar, &user.Email, &user.Password, &user.Status, &user.CreateTime, &user.LastLogin)
 	if err != nil {
 		log.Println("dao GetUser:", err)
 		return nil

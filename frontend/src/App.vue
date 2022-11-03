@@ -1,29 +1,19 @@
 <template>
-  <Index></Index>
+  <div id="app">
+    <router-view/>
+    <Footer></Footer>
+  </div>
 </template>
 
-<script>
-import Index from '@/view/Index';
-export default {
-  name: 'App',
-  created: function () {
-    this.axios.get('http://localhost:8081/').then((res) => {
-      console.log(res);
-    });
-  },
-  components: {
-    Index
-  }
-}
-</script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    max-width: 960px;
+    margin: 0 auto;
+  }
 </style>
+<script>
+import Footer from './components/Footer';
+export default {
+  components: {Footer}
+};
+</script>

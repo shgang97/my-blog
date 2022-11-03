@@ -50,7 +50,6 @@ function uploadImage(file, cb) {
     success: function (res) {
       if (res.code !== 200) return alert(res.error);
       const token = res.data;
-      console.log("token = ", token)
       const path = "blog/upload/" + Date.now() + "_";
       const observable = qiniu.upload(file, path + file.name, token, putExtra, config)
       const observer = {

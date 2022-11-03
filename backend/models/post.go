@@ -13,17 +13,21 @@ import (
 */
 
 type Post struct {
-	Pid        int
-	Title      string
-	Content    string
-	Markdown   string
-	CategoryId int
-	UserId     int
-	ViewCount  int
-	Type       int
-	Slug       string
-	CreateAt   time.Time
-	UpdateAt   time.Time
+	Id          int       `json:"id"`
+	UserId      int       `json:"userId"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Content     string    `json:"content"`
+	CreateTime  time.Time `json:"createTime"`
+	UpdateTime  time.Time `json:"updateTime"`
+	Status      string    `json:"status"`
+}
+
+type PagePost struct {
+	Posts    []Post `json:"posts"`
+	Page     int    `json:"page"`
+	Total    int    `json:"total"`
+	PageSize int    `json:"pageSize"`
 }
 
 func (v Post) TableName() string {
