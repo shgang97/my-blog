@@ -7,9 +7,9 @@
       <a href="https://beian.miit.gov.cn/" target="_blank">
         苏ICP备2022042734号-1</a>
       <span class="mx-2">|</span>
-      <a href="https://beian.miit.gov.cn/" target="_blank">
+      <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011719" target="_blank">
         <img src="/images/gongan.png" width="20" style="position: relative;top: 4px;">
-        苏公安网备xxxxx号
+        苏公网安备 32011502011719号
       </a>
       <span class="mx-2">|</span>
       Copyright © 2022 shgang
