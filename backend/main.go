@@ -1,32 +1,21 @@
 package main
 
 import (
+	"backend/dao"
+	"backend/model"
 	"fmt"
-	_ "github.com/codyguo/godaemon"
-	"log"
-	"my-blog/backend/common"
-	"my-blog/backend/router"
-	"net/http"
 )
 
 /*
 @author: shg
-@since: 2022/10/12
+@since: 2022/11/29
 @desc: //TODO
 */
 
-func init() {
-	// 模版加载
-	common.LoadTemplate()
-}
 func main() {
-	server := http.Server{
-		Addr: ":8080",
-	}
-	// 路由
-	router.Router()
-	fmt.Println("blog system is running...")
-	if err := server.ListenAndServe(); err != nil {
-		log.Fatal(err)
-	}
+	//router.Router()
+	var user model.User
+	dao.Db.First(&user)
+	fmt.Println("user = ", user)
+
 }
