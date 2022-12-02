@@ -1,10 +1,6 @@
 package main
 
-import (
-	"backend/dao"
-	"backend/model"
-	"fmt"
-)
+import "backend/router"
 
 /*
 @author: shg
@@ -14,8 +10,5 @@ import (
 
 func main() {
 	//router.Router()
-	var user model.User
-	dao.Db.First(&user)
-	fmt.Println("user = ", user)
-
+	router.Router()
 }

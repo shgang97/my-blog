@@ -1,8 +1,8 @@
 package router
 
 import (
+	"backend/api/user"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 /*
@@ -11,14 +11,14 @@ import (
 @desc: //TODO
 */
 
+const ContextPath = "/api/blog"
+
 func Router() {
-	router := gin.New()
-
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"msg": "welcome to my blog",
-		})
-	})
-
+	router := gin.Default()
+	userRouter := router.Group(ContextPath + "/user")
+	{
+		userRouter.GET("/get", user.UserGet)
+		userRouter.POST("/post", user.UserPost)
+	}
 	router.Run(":8080")
 }
