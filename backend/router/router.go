@@ -2,6 +2,7 @@ package router
 
 import (
 	"backend/api/user"
+	"backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,9 @@ import (
 const ContextPath = "/api/blog"
 
 func Router() {
-	router := gin.Default()
+	router := gin.New()
+	router.Use(middleware.Cors())
+
 	userRouter := router.Group(ContextPath + "/user")
 	{
 		userRouter.GET("/get", user.UserGet)
