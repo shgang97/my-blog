@@ -15,6 +15,12 @@ type User struct {
 	BaseModel
 }
 
+type UserInfo struct {
+	Id       string `json:"id"`
+	Username string `json:"username"`
+	Avatar   string `json:"avatar"`
+}
+
 // TableName 实现 Tabler 接口来更改默认表名
 func (User) TableName() string {
 	return "blog_user"
