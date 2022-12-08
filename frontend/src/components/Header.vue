@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <a href="/" class="logo">
-      <img src="public/images/logo.jpeg" alt="logo-img" class="logo-img">
+      <img src="../assets/images/logo.jpeg" alt="logo-img" class="logo-img">
     </a>
 
     <div class="nav-container nav-container-left">
@@ -17,7 +17,7 @@
     <div class="nav-container nav-container-right">
       <input class="text" type="text" placeholder="请输入关键词~~~" name="search">
       <input class="button" type="button" value="搜索">
-      <img src="public/images/avatar.png">
+      <img src="../assets/images/avatar.png">
       <nav>
         <a>消息</a>
         <a>发布</a>

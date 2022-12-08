@@ -1,13 +1,29 @@
 <template>
   <div>
     <h1>Contents</h1>
-    Contents
+    <component :is="tabName"></component>
   </div>
 </template>
 
 <script>
+import Articles from "./Articles.vue";
+import Aside from "./Aside.vue";
+import About from "./About.vue";
 export default {
-  name: 'Content'
+  name: 'Content',
+  computed: {
+    tabName: function () {
+      let route = this.$route.path
+      switch (route) {
+        case '/home':
+          return Articles
+        case '/about':
+          return About
+        default:
+          return Aside
+      }
+    }
+  }
 };
 </script>
 

@@ -27,7 +27,7 @@ import Footer from '../components/Footer.vue';
 import Content from '../components/Content.vue';
 import Aside from '../components/Aside.vue';
 export default {
-  name: 'Home',
+  name: 'Index',
   components: {
     Aside,
     Content,
