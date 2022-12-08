@@ -1,26 +1,13 @@
 <template>
   <div class="common-layout">
-    <el-container class="container">
-      <el-header class="header">
-        <template v-slot>
-          <Header></Header>
-        </template>
-      </el-header>
+    <el-container>
+      <el-header class="header"><Header></Header></el-header>
       <el-container>
-        <el-aside width="200px" class="aside">
-          <Aside></Aside>
-        </el-aside>
-        <el-container>
-          <el-main>
-            <Content></Content>
-          </el-main>
-
-        </el-container>
-        <el-aside width="200px" class="aside">
-          <Aside></Aside>
-        </el-aside>
+        <el-aside><Aside></Aside></el-aside>
+        <el-main><Content></Content></el-main>
+        <el-aside><Aside></Aside></el-aside>
       </el-container>
-      <el-footer><Footer></Footer></el-footer>
+      <el-footer class="footer"><Footer></Footer></el-footer>
     </el-container>
   </div>
 </template>
@@ -44,5 +31,10 @@ export default {
 <style lang="less" scoped>
 .header {
   padding: 0;
+  width: 100%;
+}
+.footer {
+  padding: 0;
+  width: 100%;
 }
 </style>
