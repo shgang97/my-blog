@@ -14,9 +14,13 @@
           <el-main>
             <Content></Content>
           </el-main>
-          <el-footer><Footer></Footer></el-footer>
+
         </el-container>
+        <el-aside width="200px" class="aside">
+          <Aside></Aside>
+        </el-aside>
       </el-container>
+      <el-footer><Footer></Footer></el-footer>
     </el-container>
   </div>
 </template>
