@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-container">
     <h1>Contents</h1>
     <component :is="tabName"></component>
   </div>
@@ -27,6 +27,5 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <div class="common-layout">
+  <div class="container">
     <el-container>
       <el-header class="header"><Header></Header></el-header>
-      <el-container>
-        <el-aside><Aside></Aside></el-aside>
-        <el-main><Content></Content></el-main>
-        <el-aside><Aside></Aside></el-aside>
+      <el-container class="main-container">
+        <div style="width: 20%"></div>
+        <el-main class="main-body"><Content></Content></el-main>
+        <div style="width: 20%"></div>
       </el-container>
       <el-footer class="footer"><Footer></Footer></el-footer>
     </el-container>
@@ -29,11 +29,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.container {
+  width: 100%;
+}
+.main-body {
+  width: 60%;
+}
 .header {
   padding: 0;
   width: 100%;
 }
 .footer {
+  margin: 0;
   padding: 0;
   width: 100%;
 }

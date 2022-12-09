@@ -74,7 +74,7 @@ export default {
   width: 100%;
   height: 40px;
   background-color: #292c2f;
-  position: absolute;
+  /*position: absolute;*/
   bottom: 0;
   font-size: 16px;
   line-height: 35px;
