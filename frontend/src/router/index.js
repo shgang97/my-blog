@@ -6,7 +6,7 @@ const router = createRouter({
     // 指定路由的工作模式 hash
     history: createWebHashHistory(),
     routes: [
-        { path: '/', component: Index },
+        { path: '/', redirect: '/home' },
         { path: '/home', component: Index },
         { path: '/category', component: Index },
         { path: '/tag', component: Index },
