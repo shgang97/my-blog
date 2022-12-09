@@ -1,6 +1,6 @@
 <template>
   <div class="article-page-container">
-    <div class="article-list" >
+    <div class="article-list">
       <ArticleCard :key="article.id"
                    :id="article.id"
                    :title="article.title + article.id"
