@@ -3,7 +3,8 @@
     <div class="article-list" >
       <ArticleCard :key="article.id"
                    :id="article.id"
-                   :title="article.title + article.id" v-for="article in articles">
+                   :title="article.title + article.id"
+                   v-for="article in articles">
 
       </ArticleCard>
     </div>

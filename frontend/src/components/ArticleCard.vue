@@ -3,11 +3,15 @@
     <div class="meta-container">
       <div class="date vertical-line">1个月前</div>
       <div class="tag-list ">
-        <a href="/" class="tag vertical-line">后端</a>
-        <a href="/" class="tag vertical-line">网络协议</a>
+        <div class="tag vertical-line">
+          <router-link class="tag vertical-line"
+                       :to="'/tag/' + tag.id"
+                       :key="tag.id"
+                       v-for="tag in tags">{{ tag }}</router-link>
+        </div>
       </div>
       <div class="category vertical-line">
-        <a href="/">Java</a>
+        <router-link :to="'/category/' + category.id">{{category.name}}</router-link>
       </div>
     </div>
     <div class="content-wrapper">
@@ -59,6 +63,14 @@ export default {
       type: Number,
       default: 0
     },
+    tags: {
+      type: Array,
+      default: ["tag1", "tag2"]
+    },
+    category: {
+      type: Object,
+      default: {id: "001", name: "Java"}
+    }
   }
 }
 </script>
