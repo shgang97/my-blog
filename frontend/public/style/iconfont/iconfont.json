@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "637376",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "15838547",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e682",
+      "unicode_decimal": 59010
+    },
+    {
+      "icon_id": "16654585",
+      "name": "icon_login_input_password_default",
+      "font_class": "icon_login_input_password_default",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "16654588",
+      "name": "icon_login_input_password_pressed",
+      "font_class": "icon_login_input_password_pressed",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "623564",
       "name": "阅读",
       "font_class": "yuedu",

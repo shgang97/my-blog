@@ -2,6 +2,7 @@ package router
 
 import (
 	"backend/api/login"
+	"backend/api/logout"
 	"backend/api/user"
 	"backend/middleware"
 	"github.com/gin-gonic/gin"
@@ -27,6 +28,7 @@ func Router() {
 	authRouter.Use(middleware.JWT())
 
 	unauthRouter.POST("/login", login.Login)
+	authRouter.GET("logout", logout.Login)
 
 	userRouter := authRouter.Group("/user")
 	{

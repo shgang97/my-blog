@@ -1,6 +1,5 @@
 <template>
   <div class="content-container">
-    <h1>Contents</h1>
     <component :is="tabName"></component>
   </div>
 </template>

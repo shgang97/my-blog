@@ -6,22 +6,69 @@
 
     <div class="nav-container nav-container-left">
       <nav>
-        <router-link to="/home"><el-icon><HomeFilled /></el-icon>首页</router-link>
-        <router-link to="/category"><el-icon><Grid /></el-icon>分类</router-link>
-        <router-link to="/tag"><el-icon><CollectionTag /></el-icon>标签</router-link>
-        <router-link to="/archive"><el-icon><Calendar /></el-icon>归档</router-link>
-        <router-link to="/about"><el-icon><UserFilled /></el-icon>关于</router-link>
-        <router-link to="/link"><el-icon><Link /></el-icon>友链</router-link>
+        <router-link to="/home">
+          <el-icon>
+            <HomeFilled/>
+          </el-icon>
+          首页
+        </router-link>
+        <router-link to="/category">
+          <el-icon>
+            <Grid/>
+          </el-icon>
+          分类
+        </router-link>
+        <router-link to="/tag">
+          <el-icon>
+            <CollectionTag/>
+          </el-icon>
+          标签
+        </router-link>
+        <router-link to="/archive">
+          <el-icon>
+            <Calendar/>
+          </el-icon>
+          归档
+        </router-link>
+        <router-link to="/about">
+          <el-icon>
+            <UserFilled/>
+          </el-icon>
+          关于
+        </router-link>
+        <router-link to="/link">
+          <el-icon>
+            <Link/>
+          </el-icon>
+          友链
+        </router-link>
       </nav>
     </div>
     <div class="nav-container nav-container-right">
       <input class="text" type="text" placeholder="请输入关键词~~~" name="search">
       <input class="button" type="button" value="搜索">
-      <img src="../assets/images/avatar.png">
-      <nav>
-        <a>消息</a>
-        <a>发布</a>
-      </nav>
+      <div class="has-login-wrapper" v-if="hasLogin">
+        <img :src="this.userInfo.avatar">
+        <nav>
+          <el-button type="primary" plain @click="logout">退出</el-button>
+        </nav>
+        <nav class="write-article">
+          <router-link to="/writing" class="write-article-link">
+            <el-icon>
+              <Link/>
+            </el-icon>
+            发布文章
+          </router-link>
+        </nav>
+
+      </div>
+      <div class="login-button-wrapper" v-else>
+        <nav class="write-article">
+          <router-link to="/login" class="write-article-link">
+            <el-button type="primary" plain>登录</el-button>
+          </router-link>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +76,34 @@
 <script>
 export default {
   name: 'Header',
+  data() {
+    return {
+      userInfo: {
+        username: '',
+        avatar: ''
+      },
+      hasLogin: false
+    };
+  },
+  methods: {
+    async logout() {
+      const {data: res} = await this.$http.get('/logout', {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      })
+      console.log(res)
+      this.$store.commit('REMOVE_INFO')
+      await this.$router.push('login')
+    }
+  },
+  created() {
+    if (this.$store.getters.getUser) {
+      this.userInfo.username = this.$store.getters.getUser.username
+      this.userInfo.avatar = this.$store.getters.getUser.avatar
+      this.hasLogin = true
+    }
+  }
 };
 </script>
 
@@ -40,11 +115,10 @@ export default {
   height: 50px;
   background-color: #292c2f;
   color: #ffffff;
-
   /*吸顶效果*/
-  /* position: sticky;
-   position: -webkit-sticky;    !*兼容 -webkit 内核的浏览器*!
-   top: 0px;                    !*必须设一个值，否则不生效*!*/
+  position: absolute;
+  position: -webkit-sticky; /*!*兼容 -webkit 内核的浏览器*!*/
+  top: 0; /*!*必须设一个值，否则不生效*!*/
 
 }
 
@@ -71,6 +145,14 @@ nav {
   align-items: center;
   margin: 0px 40px;
   font: 16px Arial, Helvetica, sans-serif;
+}
+
+.has-login-wrapper, .login-button-wrapper {
+  display: flex;
+}
+
+.write-article-link {
+  width: 120px;
 }
 
 /*/deep/ router-link {*/

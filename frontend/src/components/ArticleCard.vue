@@ -7,28 +7,23 @@
           <router-link class="tag vertical-line"
                        :to="'/tag/' + tag.id"
                        :key="tag.id"
-                       v-for="tag in tags">{{ tag }}</router-link>
+                       v-for="tag in tags">{{ tag }}
+          </router-link>
         </div>
       </div>
       <div class="category vertical-line">
-        <router-link :to="'/category/' + category.id">{{category.name}}</router-link>
+        <router-link :to="'/category/' + category.id">{{ category.name }}</router-link>
       </div>
     </div>
     <div class="content-wrapper">
       <div class="title">
-        <router-link :to="'/article/' + id" >{{ title }}</router-link>
+        <router-link :to="'/article/' + id">{{ title }}</router-link>
       </div>
       <div class="abstract">{{ description }}</div>
       <ul class="action-list">
-        <el-space size="14" spacer="|">
-          <li class="item view"><i class="iconfont icon-yuedu"></i><span>{{ viewCount }}</span></li>
-        </el-space>
-        <el-space size="14" spacer="|">
-          <li class="item comment"><i class="iconfont icon-pinglun"></i><span>{{ commentCount }}</span></li>
-        </el-space>
-        <el-space size="14" spacer="|">
-          <li class="item like"><i class="iconfont icon-dianzan"></i><span>{{ likeCount }}</span></li>
-        </el-space>
+        <li class="item view"><i class="iconfont icon-yuedu"></i><span>{{ viewCount }}</span></li>
+        <li class="item comment"><i class="iconfont icon-pinglun"></i><span>{{ commentCount }}</span></li>
+        <li class="item like"><i class="iconfont icon-dianzan"></i><span>{{ likeCount }}</span></li>
       </ul>
     </div>
   </div>
@@ -36,7 +31,7 @@
 
 <script>
 export default {
-  name: "ArticleCard",
+  name: 'ArticleCard',
   props: {
     id: {
       type: String,
@@ -49,7 +44,7 @@ export default {
     description: {
       type: String,
       // required: true,
-      default: "description"
+      default: 'description'
     },
     viewCount: {
       type: Number,
@@ -65,14 +60,14 @@ export default {
     },
     tags: {
       type: Array,
-      default: ["tag1", "tag2"]
+      default: ['tag1', 'tag2']
     },
     category: {
       type: Object,
-      default: {id: "001", name: "Java"}
+      default: {id: '001', name: 'Java'}
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -113,11 +108,17 @@ ul {
 
 li {
   list-style: none;
+  padding: 0 10px;
+}
+
+li > i {
+  padding-right: 5px;
 }
 
 .article-container {
   padding: 5px;
   width: 100%;
+  background-color: white;
 }
 
 .action-list {

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3818567 */
-  src: url('iconfont.woff2?t=1670575514710') format('woff2'),
-       url('iconfont.woff?t=1670575514710') format('woff'),
-       url('iconfont.ttf?t=1670575514710') format('truetype');
+  src: url('iconfont.woff2?t=1670595078039') format('woff2'),
+       url('iconfont.woff?t=1670595078039') format('woff'),
+       url('iconfont.ttf?t=1670595078039') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-mima:before {
+  content: "\e689";
+}
+
+.icon-user:before {
+  content: "\e682";
+}
+
+.icon-icon_login_input_password_default:before {
+  content: "\e618";
+}
+
+.icon-icon_login_input_password_pressed:before {
+  content: "\e619";
 }
 
 .icon-yuedu:before {
