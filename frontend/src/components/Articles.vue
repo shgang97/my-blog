@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import ArticleCard from './ArticleCard.vue';
-import Pagination from './Pagination.vue';
 
 export default {
   name: 'Articles',
@@ -58,10 +56,6 @@ export default {
       pageSize: 10,
       total: 0
     };
-  },
-  components: {
-    ArticleCard,
-    Pagination
   },
   methods: {
     async postPage(page) {
