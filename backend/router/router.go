@@ -1,9 +1,7 @@
 package router
 
 import (
-	"backend/api/article"
-	"backend/api/login"
-	"backend/api/logout"
+	"backend/api"
 	"backend/api/user"
 	"backend/middleware"
 	"github.com/gin-gonic/gin"
@@ -28,8 +26,8 @@ func Router() {
 	authRouter := router.Group(ContextPath)
 	authRouter.Use(middleware.JWT())
 
-	unauthRouter.POST("/login", login.Login)
-	authRouter.GET("logout", logout.Login)
+	unauthRouter.POST("/login", api.Login)
+	authRouter.GET("logout", api.Logout)
 
 	userRouter := authRouter.Group("/user")
 	{
@@ -42,15 +40,15 @@ func Router() {
 	articleAuthRouter := authRouter.Group("/article")
 	{
 		// 分页获取文章列表
-		articleUnauthRouter.GET("", article.List)
+		articleUnauthRouter.GET("", api.List)
 		// 根据 id 阅读文章
-		articleUnauthRouter.GET("/:id", article.Read)
+		articleUnauthRouter.GET("/:id", api.Read)
 		// 添加文章
-		articleAuthRouter.POST("", article.Write)
+		articleAuthRouter.POST("", api.Write)
 		// 更新文章
-		articleAuthRouter.PUT("/:id", article.Modify)
+		articleAuthRouter.PUT("/:id", api.Modify)
 		// 删除文章
-		articleAuthRouter.DELETE("", article.Delete)
+		articleAuthRouter.DELETE("/:id", api.Delete)
 	}
 
 	_ = router.Run(":8080")

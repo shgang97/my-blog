@@ -1,4 +1,4 @@
-package logout
+package api
 
 import (
 	"backend/common"
@@ -11,6 +11,6 @@ import (
 @desc: //TODO
 */
 
-func Login(ctx *gin.Context) {
+func Logout(ctx *gin.Context) {
 	common.Success(ctx, "logout success!")
 }

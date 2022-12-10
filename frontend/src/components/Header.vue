@@ -92,7 +92,6 @@ export default {
           'Authorization': localStorage.getItem('token')
         }
       })
-      console.log(res)
       this.$store.commit('REMOVE_INFO')
       await this.$router.push('login')
     }

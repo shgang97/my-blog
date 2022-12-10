@@ -81,7 +81,6 @@ export default {
         if (valid) {
           this.handleLogin()
         } else {
-          console.log('error submit!!');
           return false;
         }
       })

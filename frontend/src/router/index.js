@@ -18,6 +18,8 @@ const router = createRouter({
         { path: '/writing', component: Writing },
         { path: '/login', component: Login },
         { path: '/article/:id', component: ArticleDetail, name: 'article' },
+        // { path: '/tag/:id', component: ArticleDetail, name: 'article' },
+        // { path: '/category/:id', component: ArticleDetail, name: 'article' },
     ],
 })
 
