@@ -1,6 +1,7 @@
 package router
 
 import (
+	"backend/api/article"
 	"backend/api/login"
 	"backend/api/logout"
 	"backend/api/user"
@@ -36,5 +37,21 @@ func Router() {
 		userRouter.POST("/post", user.UserPost)
 	}
 
-	router.Run(":8080")
+	// 文章管理
+	articleUnauthRouter := unauthRouter.Group("/article")
+	articleAuthRouter := authRouter.Group("/article")
+	{
+		// 分页获取文章列表
+		articleUnauthRouter.GET("", article.List)
+		// 根据 id 阅读文章
+		articleUnauthRouter.GET("/:id", article.Read)
+		// 添加文章
+		articleAuthRouter.POST("", article.Write)
+		// 更新文章
+		articleAuthRouter.PUT("/:id", article.Modify)
+		// 删除文章
+		articleAuthRouter.DELETE("", article.Delete)
+	}
+
+	_ = router.Run(":8080")
 }
