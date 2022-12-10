@@ -3,7 +3,6 @@ package api
 import (
 	"backend/common"
 	"backend/constant"
-	response2 "backend/response"
 	"backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -33,13 +32,10 @@ func List(ctx *gin.Context) {
 			return
 		}
 	}
-	response, err := service.GetAllArticleResponse(page, pageSize)
+	pageResult, err := service.GetAllArticleResponse(page, pageSize)
 	if err != nil {
 		common.FailWithStatus(ctx, http.StatusBadRequest, constant.ERROR_ARTICLE_PARSE_PAGE_SIZE_PARAM)
 	}
-	var pageResult response2.PageResult
-	pageResult.Data = response
-	pageResult.Total = 10
 	common.Success(ctx, pageResult)
 }
 

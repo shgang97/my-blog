@@ -8,5 +8,5 @@ package response
 
 type PageResult struct {
 	Data  interface{} `json:"data"`
-	Total int         `json:"total"`
+	Total int64       `json:"total"`
 }

@@ -12,8 +12,9 @@ import (
 @desc: //TODO
 */
 
-func GetAllArticleResponse(page, pageSize int) ([]*response.ArticleResponse, error) {
+func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 	articles, err := dao.GetArticlesByPage(page, pageSize)
+	total := dao.GetArticlesTotal()
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -54,5 +55,9 @@ func GetAllArticleResponse(page, pageSize int) ([]*response.ArticleResponse, err
 		}
 		responses = append(responses, response)
 	}
-	return responses, nil
+	pageResult := &response.PageResult{
+		Data:  responses,
+		Total: total,
+	}
+	return pageResult, nil
 }

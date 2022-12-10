@@ -46,6 +46,13 @@ func GetArticlesByPage(page, pageSize int) ([]*model.Article, error) {
 	return articles, nil
 }
 
+func GetArticlesTotal() int64 {
+	var total int64
+	Db.Model(&model.Article{}).
+		Count(&total)
+	return total
+}
+
 func GetTagByArticleIds(ids []string) (map[string]*result2.ArticleTag, error) {
 	var results []map[string]interface{}
 	Db.Table("blog_article_tag").
@@ -72,8 +79,8 @@ func GetTagByArticleIds(ids []string) (map[string]*result2.ArticleTag, error) {
 func GetCategoryByArticleIds(ids []string) (map[string]*result2.ArticleCategory, error) {
 	var results []map[string]interface{}
 	Db.Table("blog_article_category").
-		Select("blog_article_category.article_id, blog_article_category.category_id, blog_category.category_name").
-		Joins("left join blog_category on blog_article_category.category_id, blog_category.category_id").
+		Select("blog_article_category.article_id, blog_article_category.category_id, blog_category.name").
+		Joins("left join blog_category on blog_article_category.category_id=blog_category.id").
 		Where("blog_article_category.article_id IN ?", ids).
 		Find(&results)
 	articleCategoryMap := map[string]*result2.ArticleCategory{}
