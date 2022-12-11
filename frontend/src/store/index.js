@@ -4,7 +4,7 @@ export default createStore({
     state() {
         return {
             token: '',
-            userInfo: JSON.parse(sessionStorage.getItem('userInfo'))
+            userInfo: {}
         }
     },
     mutations: {
@@ -19,8 +19,10 @@ export default createStore({
         REMOVE_INFO: (state) => {
             state.token = ''
             state.userInfo = {}
-            localStorage.setItem('token', '')
-            sessionStorage.setItem('userInfo', JSON.stringify(''))
+            localStorage.removeItem("token")
+            sessionStorage.removeItem("userInfo")
+            // localStorage.setItem('token', '')
+            // sessionStorage.setItem('userInfo', JSON.stringify(''))
         }
     },
     getters: {

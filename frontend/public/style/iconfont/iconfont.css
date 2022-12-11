@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3818567 */
-  src: url('iconfont.woff2?t=1670595078039') format('woff2'),
-       url('iconfont.woff?t=1670595078039') format('woff'),
-       url('iconfont.ttf?t=1670595078039') format('truetype');
+  src: url('iconfont.woff2?t=1670729245805') format('woff2'),
+       url('iconfont.woff?t=1670729245805') format('woff'),
+       url('iconfont.ttf?t=1670729245805') format('truetype');
 }
 
 .iconfont {
@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-Writing:before {
+  content: "\e69d";
+}
+
 .icon-mima:before {
   content: "\e689";
 }
@@ -21,7 +25,7 @@
   content: "\e682";
 }
 
-.icon-icon_login_input_password_default:before {
+.icon-hide_pwd:before {
   content: "\e618";
 }
 

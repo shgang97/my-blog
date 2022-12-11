@@ -54,13 +54,9 @@
         </nav>
         <nav class="write-article">
           <router-link to="/writing" class="write-article-link">
-            <el-icon>
-              <Link/>
-            </el-icon>
-            发布文章
+            <el-button type="primary" round><i class="iconfont icon-Writing"></i>发布文章</el-button>
           </router-link>
         </nav>
-
       </div>
       <div class="login-button-wrapper" v-else>
         <nav class="write-article">
@@ -92,12 +88,13 @@ export default {
           'Authorization': localStorage.getItem('token')
         }
       })
+      this.hasLogin = false
       this.$store.commit('REMOVE_INFO')
-      await this.$router.push('login')
+      await this.$router.push('/login')
     }
   },
   created() {
-    if (this.$store.getters.getUser) {
+    if (this.$store.getters.getUser.username) {
       this.userInfo.username = this.$store.getters.getUser.username
       this.userInfo.avatar = this.$store.getters.getUser.avatar
       this.hasLogin = true
