@@ -8,6 +8,7 @@ import router from './router/index.js';
 import '../public/style/iconfont/iconfont.css';
 import store from './store';
 import axios from 'axios';
+import {VueMarkdownEditor}  from './plugins/vmdeditor/index';
 
 const app = createApp(App);
 
@@ -21,4 +22,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(router);
 app.use(store);
+app.use(VueMarkdownEditor);
 app.mount('#app');

@@ -1,13 +1,26 @@
 <template>
-  <h1>Wrting</h1>
+  <div class="edit-container">
+    <div class="header">
+      <input placeholder="输入文章标题..." spellcheck="false" maxlength="80" class="title-input title-input">
+    </div>
+    <div class="v-md-editor-container">
+      <v-md-editor v-model="text" height="400px"></v-md-editor>
+    </div>
+  </div>
+
 </template>
 
 <script>
 export default {
-  name: 'Writing'
+  name: 'Writing',
+  data() {
+    return {
+      text: ''
+    };
+  }
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>
