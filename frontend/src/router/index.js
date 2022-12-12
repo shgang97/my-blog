@@ -16,6 +16,7 @@ const router = createRouter({
         { path: '/about', component: Index },
         { path: '/link', component: Index },
         { path: '/writing', component: Writing },
+        { path: '/writing/:id', component: Writing },
         { path: '/login', component: Login },
         { path: '/article/:id', component: ArticleDetail, name: 'article' },
         // { path: '/tag/:id', component: ArticleDetail, name: 'article' },
