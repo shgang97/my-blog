@@ -1,6 +1,9 @@
 package main
 
-import "backend/router"
+import (
+	"backend/router"
+	_ "github.com/codyguo/godaemon"
+)
 
 /*
 @author: shg

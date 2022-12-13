@@ -27,7 +27,7 @@ var Config *tomlConfig
 func init() {
 	// 程序启动时，执行int方法
 	Config = new(tomlConfig)
-	_, err := toml.DecodeFile("config/config.toml", &Config)
+	_, err := toml.DecodeFile("/home/apps/blog/config/config.toml", &Config)
 	if err != nil {
 		log.Fatal("decode file failed, filename:config/config.toml")
 		panic(err)

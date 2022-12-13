@@ -12,7 +12,7 @@ import {VueMarkdownEditor}  from './plugins/vmdeditor/index';
 
 const app = createApp(App);
 
-axios.defaults.baseURL = 'http://localhost:8080/api/blog';
+axios.defaults.baseURL = 'http://shgang.cn:8080/api/blog';
 app.config.globalProperties.$http = axios;
 
 app.use(ElementPlus);

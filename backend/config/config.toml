@@ -1,5 +1,5 @@
 [dataSource]
-    IP = "106.14.226.33"
-    Port = "9306"
-    UserName = "root"
-    Password = "root"
+    IP = ""
+    Port = ""
+    UserName = ""
+    Password = ""
