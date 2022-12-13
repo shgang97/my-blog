@@ -6,7 +6,7 @@
           <input v-model="article.title" placeholder="输入文章标题..." spellcheck="false" maxlength="80"
                  class="title-input">
         </el-form-item>
-        <el-form-item class="button" class="button-item">
+        <el-form-item class="button button-item">
           <el-button @click="save(article)" plain>存草稿</el-button>
           <div class="publishPopup">
             <el-button type="primary" @click="display = !display">发布</el-button>
@@ -15,20 +15,20 @@
               <div class="form-item">
                 <div class="label required category-label"> 分类：</div>
                 <el-row class="mb-4">
-                  <el-button>后端</el-button>
-                  <el-button>前端</el-button>
-                  <el-button>Android</el-button>
-                  <el-button>iOS</el-button>
+                  <el-button v-model="article.category">后端</el-button>
+                  <el-button v-model="article.category">前端</el-button>
+                  <el-button v-model="article.category">Android</el-button>
+                  <el-button v-model="article.category">iOS</el-button>
                 </el-row>
                 <el-row class="mb-4">
-                  <el-button>后端</el-button>
-                  <el-button>前端</el-button>
-                  <el-button>Android</el-button>
-                  <el-button>iOS</el-button>
+                  <el-button v-model="article.category">后端</el-button>
+                  <el-button v-model="article.category">前端</el-button>
+                  <el-button v-model="article.category">Android</el-button>
+                  <el-button v-model="article.category">iOS</el-button>
                 </el-row>
-                <el-form-item prop="tag" >
+                <el-form-item prop="tag">
                   <div class="label required category-label"> 标签：</div>
-                  <el-input v-model="article.tag" placeholder="请输入标签..." spellcheck="false"></el-input>
+                  <el-input v-model="article.tags" placeholder="请输入标签..." spellcheck="false"></el-input>
                 </el-form-item>
                 <el-row class="mb-4 button-action">
                   <el-button @click="display = !display">取消</el-button>
@@ -55,14 +55,13 @@ export default {
   name: 'Writing',
   data() {
     return {
-      text: 'hello world',
       article: {
-        title: '',
+        title: 'title',
         content: 'content:hello world',
-        tag: [],
-        category: '',
+        tags: ['tag'],
+        category: 'category'
       },
-      display: true,
+      display: false,
       rules: {
         title: [
           {required: true, message: '请输入标题', trigger: 'blur'},
@@ -79,19 +78,30 @@ export default {
       this.$refs['subForm'].validate((valid) => {
 
         if (valid) {
-          console.log(this.$route.params)
+          console.log(article)
           if ('/writing' === this.$route.path) {
-
+            this.write(this.article)
           } else if ('/writing' === this.$route.path) {
 
           }
         } else {
-          return false
+          return false;
+        }
+      });
+    },
+    async write(article) {
+      const {data: res} = await this.$http.post('/article', article, {
+        headers: {
+          'Authorization': localStorage.getItem('token')
         }
       })
+      console.log(res)
+      if (res.code === 200) {
+        await this.$router.push('/article/' + res.data)
+      }
     },
     save() {
-      console.log(this.article.title)
+      console.log(this.article.title);
     }
   }
 };

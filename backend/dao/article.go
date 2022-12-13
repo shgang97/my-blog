@@ -96,3 +96,11 @@ func GetCategoryByArticleIds(ids []string) (map[string]*result2.ArticleCategory,
 	}
 	return articleCategoryMap, nil
 }
+
+func Insert(article model.Article) (string, error) {
+	result := Db.Create(&article)
+	if result.Error != nil {
+		return "", result.Error
+	}
+	return article.Id, nil
+}

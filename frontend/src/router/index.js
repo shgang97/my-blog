@@ -1,6 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Index from '../views/Index.vue'
-import ArticleDetail from "../components/ArticleDetail.vue";
+import ArticleDetail from "../views/ArticleDetail.vue";
 import Writing from '../views/Writing.vue';
 import Login from '../views/Login.vue';
 

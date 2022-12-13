@@ -3,6 +3,7 @@ package api
 import (
 	"backend/common"
 	"backend/constant"
+	request2 "backend/request"
 	"backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -44,7 +45,17 @@ func Read(ctx *gin.Context) {
 }
 
 func Write(ctx *gin.Context) {
-
+	var request request2.ArticleRequest
+	err := ctx.ShouldBindJSON(&request)
+	if err != nil {
+		common.Fail(ctx, constant.ERROR_ARTICLE_WRITING)
+		return
+	}
+	id, err := service.Write(request)
+	if err != nil {
+		common.FailWithStatus(ctx, http.StatusNotAcceptable, constant.ERROR_ARTICLE_FAILED_TO_ADD_ARTICLE)
+	}
+	common.Success(ctx, id)
 }
 
 func Modify(ctx *gin.Context) {

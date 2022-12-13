@@ -11,9 +11,9 @@ type Article struct {
 	Title        string `json:"title"`
 	Content      string `json:"content"`
 	Cover        string `json:"cover"`
-	ViewCount    string `json:"view_count"`
-	LikeCount    string `json:"like_count"`
-	CommentCount string `json:"comment_count"`
+	ViewCount    int    `json:"view_count"`
+	LikeCount    int    `json:"like_count"`
+	CommentCount int    `json:"comment_count"`
 	BaseModel
 }
 

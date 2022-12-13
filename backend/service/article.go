@@ -2,8 +2,13 @@ package service
 
 import (
 	"backend/dao"
+	"backend/model"
+	"backend/request"
 	"backend/response"
+	"github.com/google/uuid"
 	"log"
+	"strings"
+	"time"
 )
 
 /*
@@ -60,4 +65,24 @@ func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 		Total: total,
 	}
 	return pageResult, nil
+}
+
+func Write(request request.ArticleRequest) (string, error) {
+	id := strings.ReplaceAll(uuid.New().String(), "-", "")
+	article := model.Article{
+		UserId:       "",
+		Title:        request.Title,
+		Content:      request.Content,
+		Cover:        "",
+		ViewCount:    0,
+		LikeCount:    0,
+		CommentCount: 0,
+		BaseModel: model.BaseModel{
+			Id:       id,
+			CreateAt: time.Now(),
+			UpdateAt: time.Now(),
+		},
+	}
+	dao.Insert(article)
+	return article.Id, nil
 }

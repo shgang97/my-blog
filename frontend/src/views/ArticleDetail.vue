@@ -7,6 +7,7 @@
       <el-main>
         <div>
           <h1>article detail--{{ this.$route.params.id }}</h1>
+          <h1>article detail--{{ this.$route.path }}</h1>
         </div>
       </el-main>
     </el-container>
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import Header from './Header.vue';
+import Header from '../components/Header.vue';
 
 export default {
   name: 'ArticleDetail',
