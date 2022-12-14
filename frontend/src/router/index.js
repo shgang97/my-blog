@@ -15,13 +15,23 @@ const router = createRouter({
         { path: '/archive', component: Index },
         { path: '/about', component: Index },
         { path: '/link', component: Index },
-        { path: '/writing', component: Writing },
+        { path: '/writing', name: 'writing', component: Writing },
         { path: '/writing/:id', component: Writing },
-        { path: '/login', component: Login },
+        { path: '/login', name: 'login', component: Login },
         { path: '/article/:id', component: ArticleDetail, name: 'article' },
         // { path: '/tag/:id', component: ArticleDetail, name: 'article' },
         // { path: '/category/:id', component: ArticleDetail, name: 'article' },
     ],
+})
+
+router.beforeEach((to, from, next) => {
+    console.log(to)
+    console.log(sessionStorage.getItem("userInfo"))
+    if (to.name === 'writing' && !sessionStorage.getItem("userInfo")) {
+        next({name: 'login'})
+    } else {
+        next()
+    }
 })
 
 export default router

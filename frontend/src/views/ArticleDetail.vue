@@ -1,13 +1,12 @@
 <template>
-  <div class="article-layout">
+  <div class="common-layout">
     <el-container>
-      <el-header>
+      <el-header class="header">
         <Header></Header>
       </el-header>
-      <el-main>
-        <div>
-          <h1>article detail--{{ this.$route.params.id }}</h1>
-          <h1>article detail--{{ this.$route.path }}</h1>
+      <el-main class="main-container">
+        <div class="preview-container">
+          <v-md-editor height="800px" :model-value="text" mode="preview"></v-md-editor>
         </div>
       </el-main>
     </el-container>
@@ -19,13 +18,28 @@ import Header from '../components/Header.vue';
 
 export default {
   name: 'ArticleDetail',
+  data() {
+    return {
+      text: '### hello',
+    };
+  },
   components: {Header}
 };
 </script>
 
 <style lang="less" scoped>
-.article-layout {
+.container {
   width: 100%;
+}
+
+.header {
+  padding: 0;
+  width: 100%;
+}
+
+.preview-container {
+  width: 60%;
+  margin-left: 20%;
 }
 
 </style>
