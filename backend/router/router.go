@@ -36,8 +36,8 @@ func Router() {
 	}
 
 	// 文章管理
-	articleUnauthRouter := unauthRouter.Group("/article")
-	articleAuthRouter := authRouter.Group("/article")
+	articleUnauthRouter := unauthRouter.Group("/articles")
+	articleAuthRouter := authRouter.Group("/articles")
 	{
 		// 分页获取文章列表
 		articleUnauthRouter.GET("", api.List)

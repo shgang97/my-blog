@@ -6,7 +6,7 @@
       </el-header>
       <el-main class="main-container">
         <div class="preview-container">
-          <v-md-editor height="800px" :model-value="text" mode="preview"></v-md-editor>
+          <v-md-editor height="800px" :model-value="article.article.content" mode="preview"></v-md-editor>
         </div>
       </el-main>
     </el-container>
@@ -20,17 +20,24 @@ export default {
   name: 'ArticleDetail',
   data() {
     return {
-      text: '### hello',
+      article: {article: '', tags: [], category: ''},
     };
   },
-  components: {Header}
+  components: {Header},
+  methods: {
+    async getArticle(id) {
+      const {data: res} = await this.$http.get('/articles/' + id);
+      this.article = res.data
+    }
+  },
+  created() {
+    const id = this.$route.params.id;
+    this.getArticle(id)
+  }
 };
 </script>
 
 <style lang="less" scoped>
-.container {
-  width: 100%;
-}
 
 .header {
   padding: 0;

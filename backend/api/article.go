@@ -41,7 +41,13 @@ func List(ctx *gin.Context) {
 }
 
 func Read(ctx *gin.Context) {
-
+	params := ctx.Params
+	id, _ := params.Get("id")
+	article, err := service.GetArticleById(id)
+	if err != nil {
+		common.FailWithStatus(ctx, http.StatusOK, constant.ERROR_ARTICLE_PARSE_PAGE_SIZE_PARAM)
+	}
+	common.Success(ctx, article)
 }
 
 func Write(ctx *gin.Context) {

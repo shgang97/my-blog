@@ -104,3 +104,32 @@ func Insert(article model.Article) (string, error) {
 	}
 	return article.Id, nil
 }
+
+func GetArticleById(id string) (*result2.Article, error) {
+	var article result2.Article
+	Db.Table("blog_article").
+		Select("blog_article.id, blog_article.user_id, blog_article.title, blog_article.content, blog_article.cover, blog_article.view_count, blog_article.like_count, blog_article.comment_count, blog_article.create_at, blog_article.update_at").
+		Where("id = ?", id).
+		Take(&article)
+	return &article, nil
+}
+
+func GetCategoryByArticleId(articleId string) (*result2.Category, error) {
+	var category result2.Category
+	Db.Table("blog_category").
+		Select("blog_category.id, blog_category.name").
+		Joins("left join blog_article_category on blog_category.id=blog_article_category.category_id").
+		Where("blog_article_category.article_id = ?", articleId).
+		Scan(&category)
+	return &category, nil
+}
+
+func GetTagsByArticleId(articleId string) ([]*result2.Tag, error) {
+	var tags []*result2.Tag
+	Db.Table("blog_tag").
+		Select("blog_tag.id, blog_tag.name").
+		Joins("left join blog_article_tag on blog_tag.id=blog_article_tag.tag_id").
+		Where("blog_article_tag.article_id = ?", articleId).
+		Scan(&tags)
+	return tags, nil
+}

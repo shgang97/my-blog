@@ -60,7 +60,7 @@ export default {
   methods: {
     async postPage(page) {
       this.currentPage = page;
-      const {data: res} = await this.$http.get('/article', {params: {page: this.currentPage, pageSize: this.pageSize}});
+      const {data: res} = await this.$http.get('/articles', {params: {page: this.currentPage, pageSize: this.pageSize}});
       this.articles = res.data.data;
       this.total = res.data.total;
     }

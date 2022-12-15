@@ -30,21 +30,21 @@ func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 	for _, article := range articles {
 		ids = append(ids, article.Id)
 	}
-	articleTagMap, _ := dao.GetTagByArticleIds(ids)
-	articleCategoryMap, _ := dao.GetCategoryByArticleIds(ids)
+	//articleTagMap, _ := dao.GetTagByArticleIds(ids)
+	//articleCategoryMap, _ := dao.GetCategoryByArticleIds(ids)
 	for _, article := range articles {
-		articleTag := articleTagMap[article.Id]
-		var tagIds, tagNames []string
-		if articleTag != nil {
-			tagIds = articleTag.TagIds
-			tagNames = articleTag.TagNames
-		}
-		articleCategory := articleCategoryMap[article.Id]
-		var categoryId, categoryName string
-		if articleCategory != nil {
-			categoryId = articleCategory.CategoryId
-			categoryName = articleCategory.CategoryName
-		}
+		//articleTag := articleTagMap[article.Id]
+		//var tagIds, tagNames []string
+		//if articleTag != nil {
+		//	tagIds = articleTag.TagIds
+		//	tagNames = articleTag.TagNames
+		//}
+		//articleCategory := articleCategoryMap[article.Id]
+		//var categoryId, categoryName string
+		//if articleCategory != nil {
+		//	categoryId = articleCategory.CategoryId
+		//	categoryName = articleCategory.CategoryName
+		//}
 		response := &response.ArticleResponse{
 			Id:           article.Id,
 			Title:        article.Title,
@@ -53,10 +53,6 @@ func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 			ViewCount:    article.ViewCount,
 			LikeCount:    article.LikeCount,
 			CommentCount: article.CommentCount,
-			TagIds:       tagIds,
-			TagNames:     tagNames,
-			CategoryId:   categoryId,
-			CategoryName: categoryName,
 		}
 		responses = append(responses, response)
 	}
@@ -85,4 +81,16 @@ func Write(request request.ArticleRequest) (string, error) {
 	}
 	dao.Insert(article)
 	return article.Id, nil
+}
+
+func GetArticleById(id string) (*response.ArticleDetail, error) {
+	article, _ := dao.GetArticleById(id)
+	category, _ := dao.GetCategoryByArticleId(id)
+	tags, _ := dao.GetTagsByArticleId(id)
+	articleRes := &response.ArticleDetail{
+		Article:  article,
+		Tags:     tags,
+		Category: category,
+	}
+	return articleRes, nil
 }
