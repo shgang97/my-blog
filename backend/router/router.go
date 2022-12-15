@@ -2,6 +2,8 @@ package router
 
 import (
 	"backend/api"
+	"backend/api/category"
+	"backend/api/tag"
 	"backend/api/user"
 	"backend/middleware"
 	"github.com/gin-gonic/gin"
@@ -49,6 +51,18 @@ func Router() {
 		articleAuthRouter.PUT("/:id", api.Modify)
 		// 删除文章
 		articleAuthRouter.DELETE("/:id", api.Delete)
+	}
+
+	// 标签管理
+	tagUnauthRouter := unauthRouter.Group("/tags")
+	{
+		tagUnauthRouter.GET("", tag.List)
+	}
+
+	// 标签管理
+	categoryUnauthRouter := unauthRouter.Group("/categories")
+	{
+		categoryUnauthRouter.GET("", category.List)
 	}
 
 	_ = router.Run(":8080")

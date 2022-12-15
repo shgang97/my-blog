@@ -61,6 +61,8 @@ export default {
         tags: ['tag'],
         category: 'category'
       },
+      tags: {},
+      categories: {},
       display: false,
       rules: {
         title: [
@@ -90,7 +92,7 @@ export default {
       });
     },
     async write(article) {
-      const {data: res} = await this.$http.post('/article', article, {
+      const {data: res} = await this.$http.post('/articles', article, {
         headers: {
           'Authorization': localStorage.getItem('token')
         }
@@ -101,7 +103,23 @@ export default {
     },
     save() {
       console.log(this.article.title);
-    }
+    },
+    async getTags() {
+      const {data: res} = await this.$http.get('/tags')
+      if (res.code === 200) {
+        this.tags = res.data
+      }
+    },
+    async getCategories() {
+      const {data: res} = await this.$http.get('/categories')
+      if (res.code === 200) {
+        this.categories = res.data
+      }
+    },
+  },
+  async created() {
+    await this.getTags()
+    await this.getCategories()
   }
 };
 </script>

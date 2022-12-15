@@ -46,11 +46,11 @@ func GetArticlesByPage(page, pageSize int) ([]*model.Article, error) {
 	return articles, nil
 }
 
-func GetArticlesTotal() int64 {
+func GetArticlesTotal() int {
 	var total int64
 	Db.Model(&model.Article{}).
 		Count(&total)
-	return total
+	return int(total)
 }
 
 func GetTagByArticleIds(ids []string) (map[string]*result2.ArticleTag, error) {
