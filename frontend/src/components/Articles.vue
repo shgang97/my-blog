@@ -23,9 +23,9 @@
           </div>
           <div class="abstract">{{ article.description }}</div>
           <ul class="action-list">
-            <li class="item view"><i class="iconfont icon-yuedu"></i><span>{{ article.viewCount }}</span></li>
-            <li class="item comment"><i class="iconfont icon-pinglun"></i><span>{{ article.commentCount }}</span></li>
-            <li class="item like"><i class="iconfont icon-dianzan"></i><span>{{ article.likeCount }}</span></li>
+            <li class="item view"><i class="iconfont icon-view1"></i><span>{{ article.viewCount }}</span></li>
+            <li class="item comment"><i class="iconfont icon-comment_fill_light"></i><span>{{ article.commentCount }}</span></li>
+            <li class="item like"><i class="iconfont icon-good"></i><span>{{ article.likeCount }}</span></li>
           </ul>
         </div>
       </div>
@@ -124,5 +124,6 @@ li > i {
 
 .action-list {
   padding: 0;
+  color: #8a919f;
 }
 </style>

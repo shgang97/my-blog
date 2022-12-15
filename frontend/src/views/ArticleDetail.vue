@@ -1,14 +1,54 @@
 <template>
-  <div class="common-layout">
+  <div class="container">
     <el-container>
       <el-header class="header">
         <Header></Header>
       </el-header>
-      <el-main class="main-container">
-        <div class="preview-container">
-          <v-md-editor height="800px" :model-value="article.article.content" mode="preview"></v-md-editor>
-        </div>
-      </el-main>
+      <el-container>
+        <el-aside class="aside-container">
+          <div class="article-suspended-panel">
+            <div class="badge">
+              <el-badge :value="article.view_count" type="info" class="badge-item">
+                <i class="iconfont icon-share"></i>
+              </el-badge>
+            </div>
+            <div class="badge">
+              <el-badge :value="article.view_count" type="info" class="badge-item">
+                <i class="iconfont icon-view1"></i>
+              </el-badge>
+            </div>
+            <div class="badge">
+              <el-badge :value="article.view_count" type="info" class="badge-item">
+                <i class="iconfont icon-good"></i>
+              </el-badge>
+            </div>
+          </div>
+
+        </el-aside>
+        <el-main class="main-container">
+          <div class="article-header">
+            <h1 class="title">{{ article.title }}</h1>
+            <div class="meta-info">
+              <div>本文最后编辑于：{{ article.update_at }}</div>
+              <div>
+                <router-link class="tag vertical-line"
+                             :to="'/tag/' + tag.id"
+                             :key="tag.id"
+                             v-for="tag in tags">#{{ tag.name }}
+                </router-link>
+                <router-link class="category vertical-line"
+                             :to="'/category/' + category.id"
+                             :key="category.id">{{ category.name }}
+                </router-link>
+              </div>
+            </div>
+          </div>
+          <div class="preview-container">
+            <v-md-editor height="800px" :model-value="article.content" mode="preview"></v-md-editor>
+          </div>
+        </el-main>
+      </el-container>
+
     </el-container>
   </div>
 </template>
@@ -20,14 +60,18 @@ export default {
   name: 'ArticleDetail',
   data() {
     return {
-      article: {article: '', tags: [], category: ''},
+      article: {},
+      tags: [],
+      category: ''
     };
   },
   components: {Header},
   methods: {
     async getArticle(id) {
       const {data: res} = await this.$http.get('/articles/' + id);
-      this.article = res.data
+      this.article = res.data.article
+      this.tags = res.data.tags
+      this.category = res.data.category
     }
   },
   created() {
@@ -38,15 +82,77 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.container {
+  width: 100%;
+  height: 50px;
+}
 
 .header {
   padding: 0;
   width: 100%;
+  height: 50px;
 }
 
-.preview-container {
-  width: 60%;
-  margin-left: 20%;
+.article-header {
+  /*text-align: center;*/
+  background-color: white;
+  font-size: 1.5em;
+  font-weight: normal;
+  margin: 10px 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
 }
 
+.main-container {
+  margin-right: 20%;
+}
+
+.title {
+  margin: 5px 0;
+}
+
+.meta-info {
+  color: #8a919f;
+  font-size: 1.2rem;
+}
+
+.vertical-line {
+  border-left: 1px #86909c;
+  padding: 0 5px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.aside-container {
+  padding-top: 40px;
+}
+
+.article-suspended-panel {
+  position: fixed;
+  margin-left: 15%;
+  top: 130px;
+  z-index: 2;
+}
+
+.badge {
+  margin-top: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.iconfont {
+  font-size: 26px;
+}
+
+.badge-item {
+  top: 9px;
+  left: 9px;
+}
+
+i {
+  color: #8a919f;
+}
 </style>
