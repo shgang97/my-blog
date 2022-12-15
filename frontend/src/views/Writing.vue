@@ -95,9 +95,8 @@ export default {
           'Authorization': localStorage.getItem('token')
         }
       })
-      console.log(res)
       if (res.code === 200) {
-        await this.$router.push('/article/' + res.data)
+        await this.$router.push('/articles/' + res.data)
       }
     },
     save() {

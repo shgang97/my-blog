@@ -26,7 +26,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     console.log(to)
-    console.log(sessionStorage.getItem("userInfo"))
     if (to.name === 'writing' && !sessionStorage.getItem("userInfo")) {
         next({name: 'login'})
     } else {
