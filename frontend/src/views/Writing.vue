@@ -3,7 +3,7 @@
     <el-form :model="article" :rules="rules" ref="subForm">
       <div class="header">
         <el-form-item prop="title" class="input-item">
-          <input v-model="article.title" placeholder="输入文章标题..." spellcheck="false" maxlength="80"
+          <input v-model="article.article.title" placeholder="输入文章标题..." spellcheck="false" maxlength="80"
                  class="title-input">
         </el-form-item>
         <el-form-item class="button button-item">
@@ -15,16 +15,10 @@
               <div class="form-item">
                 <div class="label required category-label"> 分类：</div>
                 <el-row class="mb-4">
-                  <el-button v-model="article.category">后端</el-button>
-                  <el-button v-model="article.category">前端</el-button>
-                  <el-button v-model="article.category">Android</el-button>
-                  <el-button v-model="article.category">iOS</el-button>
-                </el-row>
-                <el-row class="mb-4">
-                  <el-button v-model="article.category">后端</el-button>
-                  <el-button v-model="article.category">前端</el-button>
-                  <el-button v-model="article.category">Android</el-button>
-                  <el-button v-model="article.category">iOS</el-button>
+                  <el-button v-model="category.id" v-for="category in categories" @click="show">{{ category.name }}</el-button>
+<!--                  <el-button v-model="article.category">前端</el-button>-->
+<!--                  <el-button v-model="article.category">Android</el-button>-->
+<!--                  <el-button v-model="article.category">iOS</el-button>-->
                 </el-row>
                 <el-form-item prop="tag">
                   <div class="label required category-label"> 标签：</div>
@@ -43,7 +37,7 @@
       </div>
       <div class="main">
         <el-form-item class="v-md-editor-container" prop="content">
-          <v-md-editor v-model="article.content" height="800px"></v-md-editor>
+          <v-md-editor v-model="article.article.content" height="800px"></v-md-editor>
         </el-form-item>
       </div>
     </el-form>
@@ -55,12 +49,7 @@ export default {
   name: 'Writing',
   data() {
     return {
-      article: {
-        title: 'title',
-        content: 'content:hello world',
-        tags: ['tag'],
-        category: 'category'
-      },
+      article: {},
       tags: {},
       categories: {},
       display: false,
@@ -76,6 +65,10 @@ export default {
     };
   },
   methods: {
+    show() {
+      console.log(this.article.category.id)
+      console.log(this.article.category.name)
+    },
     submit(article) {
       this.$refs['subForm'].validate((valid) => {
 
@@ -116,8 +109,18 @@ export default {
         this.categories = res.data
       }
     },
+    async getArticle(id) {
+      const {data: res} = await this.$http.get('/articles/' + id)
+      if (res.code === 200) {
+        console.log(res)
+        this.article = res.data
+      }
+    },
   },
   async created() {
+    if (this.$route.params.id) {
+      await this.getArticle(this.$route.params.id)
+    }
     await this.getTags()
     await this.getCategories()
   }
