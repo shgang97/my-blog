@@ -122,6 +122,7 @@ li > i {
   padding: 5px;
   width: 100%;
   background-color: white;
+  margin-bottom: 5px;
 }
 
 .action-list {

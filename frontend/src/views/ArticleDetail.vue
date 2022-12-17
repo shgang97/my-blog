@@ -29,7 +29,9 @@
           <div class="article-header">
             <h1 class="title">{{ article.title }}</h1>
             <div class="meta-info">
-              <div>本文最后编辑于：{{ article.update_at }}</div>
+              <div>本文最后编辑于：{{ article.update_at }}
+                <router-link class="edit-button" :to="'/writing/' + article.id">编辑</router-link>
+              </div>
               <div>
                 <router-link class="tag vertical-line"
                              :to="'/tag/' + tag.id"
@@ -41,6 +43,7 @@
                              :key="category.id">{{ category.name }}
                 </router-link>
               </div>
+
             </div>
           </div>
           <div class="preview-container">
@@ -116,7 +119,9 @@ export default {
   color: #8a919f;
   font-size: 1.2rem;
 }
-
+.edit-button {
+  text-decoration: none;
+}
 .vertical-line {
   border-left: 1px #86909c;
   padding: 0 5px;
