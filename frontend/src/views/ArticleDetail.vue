@@ -29,7 +29,7 @@
           <div class="article-header">
             <h1 class="title">{{ article.title }}</h1>
             <div class="meta-info">
-              <div>本文最后编辑于：{{ article.update_at }}
+              <div>本文最后编辑于：{{ dateFormat(article.update_at, "yyyy年MM月dd日 hh:mm") }}
                 <router-link class="edit-button" :to="'/writing/' + article.id">编辑</router-link>
               </div>
               <div>
@@ -80,6 +80,11 @@ export default {
   created() {
     const id = this.$route.params.id;
     this.getArticle(id)
+  },
+  computed: {
+    dateFormat() {
+      return this.$dataFormat
+    }
   }
 };
 </script>

@@ -9,11 +9,13 @@ import '../public/style/iconfont/iconfont.css';
 import store from './store';
 import axios from 'axios';
 import {VueMarkdownEditor}  from './plugins/vmdeditor/index';
+import dateformat from "./dateformat";
 
 const app = createApp(App);
 
 axios.defaults.baseURL = 'http://localhost:8080/api/blog';
 app.config.globalProperties.$http = axios;
+app.config.globalProperties.$dataFormat = dateformat;
 
 app.use(ElementPlus);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

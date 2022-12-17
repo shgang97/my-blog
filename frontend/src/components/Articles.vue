@@ -3,7 +3,7 @@
     <div class="article-list">
       <div class="article-container" v-for="article in articles">
         <div class="meta-container">
-          <div class="date vertical-line">{{article.article.create_at}}</div>
+          <div class="date vertical-line">{{dateFormat(article.article.update_at, "yyyy年MM月dd日 hh:mm")}}</div>
           <div class="tag-list ">
             <div class="tag vertical-line">
               <router-link class="tag vertical-line"
@@ -66,6 +66,11 @@ export default {
   },
   async created() {
     await this.postPage(1);
+  },
+  computed: {
+    dateFormat() {
+      return this.$dataFormat
+    }
   }
 };
 </script>
