@@ -57,8 +57,8 @@ func GetArticleTagByArticleIds(ids []string) (map[string][]*result2.Tag, error) 
 	return articleTagMap, nil
 }
 
-func Insert(article model.Article) (string, error) {
-	result := Db.Create(&article)
+func Insert(article *model.Article) (string, error) {
+	result := Db.Create(article)
 	if result.Error != nil {
 		return "", result.Error
 	}
@@ -92,4 +92,8 @@ func GetTagsByArticleId(articleId string) ([]*result2.Tag, error) {
 		Where("blog_article_tag.article_id = ?", articleId).
 		Scan(&tags)
 	return tags, nil
+}
+
+func Update(article *model.Article) {
+	Db.Model(&model.Article{}).Where("id = ?", article.Id).Updates(article)
 }

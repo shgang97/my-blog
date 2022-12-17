@@ -5,6 +5,7 @@ import (
 	"backend/constant"
 	request2 "backend/request"
 	"backend/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -52,6 +53,8 @@ func Read(ctx *gin.Context) {
 
 func Write(ctx *gin.Context) {
 	var request request2.ArticleRequest
+	r := ctx.Request
+	fmt.Println(r)
 	err := ctx.ShouldBindJSON(&request)
 	if err != nil {
 		common.Fail(ctx, constant.ERROR_ARTICLE_WRITING)
@@ -65,7 +68,19 @@ func Write(ctx *gin.Context) {
 }
 
 func Modify(ctx *gin.Context) {
-
+	var request request2.ArticleRequest
+	r := ctx.Request
+	fmt.Println(r)
+	err := ctx.ShouldBindJSON(&request)
+	if err != nil {
+		common.Fail(ctx, constant.ERROR_ARTICLE_WRITING)
+		return
+	}
+	id, err := service.Modify(request)
+	if err != nil {
+		common.FailWithStatus(ctx, http.StatusNotAcceptable, constant.ERROR_ARTICLE_FAILED_TO_ADD_ARTICLE)
+	}
+	common.Success(ctx, id)
 }
 
 func Delete(ctx *gin.Context) {

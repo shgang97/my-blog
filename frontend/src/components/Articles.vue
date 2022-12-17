@@ -19,7 +19,7 @@
         </div>
         <div class="content-wrapper">
           <div class="title">
-            <router-link :to="'/article/' + article.article.id">{{ article.article.title }}</router-link>
+            <router-link :to="'/articles/' + article.article.id">{{ article.article.title }}</router-link>
           </div>
           <div class="abstract">{{ article.article.content }}</div>
           <ul class="action-list">

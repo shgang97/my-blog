@@ -2,7 +2,7 @@
   <div class="edit-container">
     <el-form :model="article" :rules="rules" ref="subForm">
       <div class="header">
-        <el-form-item prop="title" class="input-item">
+        <el-form-item prop="article.title" class="input-item" :rules="rules.title">
           <input v-model="article.article.title" placeholder="输入文章标题..." spellcheck="false" maxlength="80"
                  class="title-input">
         </el-form-item>
@@ -14,8 +14,8 @@
               <div>发布文章</div>
               <div class="form-item">
                 <div class="label required category-label"> 分类：</div>
-                <el-radio-group v-model="category" size="large" @change="change">
-                  <el-radio-button :key="category.id" :label="category.name" v-for="category in categories" />
+                <el-radio-group v-model="category" size="large" @change="change" :disabled="update">
+                  <el-radio-button :key="category.id" :label="category.name" v-for="category in categories"/>
                 </el-radio-group>
                 <div class="label required category-label"> 标签：</div>
                 <el-select
@@ -27,6 +27,7 @@
                     default-first-option
                     :reserve-keyword="false"
                     placeholder="Choose tags for your article"
+                    :disabled="update"
                 >
                   <el-option
                       v-for="tag in tags"
@@ -37,8 +38,9 @@
                 </el-select>
                 <el-row class="mb-4 button-action">
                   <el-button @click="display = !display">取消</el-button>
-                  <el-button type="primary" @click="write(article)" v-if="update">发布文章</el-button>
-                  <el-button type="primary" @click="modify(article)" v-else>更新文章</el-button>
+                  <el-button type="primary" @click.native.prevent="submit(article)">
+                    {{ update ? '更新文章' : '发布文章' }}
+                  </el-button>
                 </el-row>
               </div>
 
@@ -48,7 +50,7 @@
         </el-form-item>
       </div>
       <div class="main">
-        <el-form-item class="v-md-editor-container" prop="content">
+        <el-form-item class="v-md-editor-container" prop="article.content" :rules="rules.content">
           <v-md-editor v-model="article.article.content" height="800px"></v-md-editor>
         </el-form-item>
       </div>
@@ -80,61 +82,64 @@ export default {
     };
   },
   methods: {
-    show() {
-      console.log(this.article.category.id)
-      console.log(this.article.category.name)
-    },
     change(value) {
-      console.log(value)
-      this.article.category = {id: this.categoryMap[value], name: value}
+      this.article.category = {id: this.categoryMap[value], name: value};
     },
-    write(article) {
-      this.$refs['subForm'].validate( async (valid) => {
+    submit(article) {
+      console.log(article);
+      this.$refs.subForm.validate(async valid => {
         if (valid) {
-          const {data: res} = await this.$http.post('/articles', article, {
-            headers: {
-              'Authorization': localStorage.getItem('token')
-            }
-          })
-          if (res.code === 200) {
-            await this.$router.push('/articles/' + res.data)
+          if (this.$route.params.id) {
+            const {data: res} = await this.$http.put('/articles/' + this.$route.params.id, article, {
+              headers: {
+                'Authorization': localStorage.getItem('token')
+              }
+            });
+            await this.$router.push('/articles/' + res.data);
+          } else {
+            const {data: res} = await this.$http.post('/articles', article, {
+              headers: {
+                'Authorization': localStorage.getItem('token')
+              }
+            });
+            await this.$router.push('/articles/' + res.data);
           }
         }
-      })
-    },
-    modify(article) {
-      console.log(article)
+      });
     },
     save() {
       console.log(this.article.title);
     },
     async getTags() {
-      const {data: res} = await this.$http.get('/tags')
+      const {data: res} = await this.$http.get('/tags');
       if (res.code === 200) {
-        this.tags = res.data
+        this.tags = res.data;
       }
     },
     async getCategories() {
-      const {data: res} = await this.$http.get('/categories')
+      const {data: res} = await this.$http.get('/categories');
       if (res.code === 200) {
-        this.categories = res.data
+        this.categories = res.data;
       }
     },
     async getArticle(id) {
-      const {data: res} = await this.$http.get('/articles/' + id)
+      const {data: res} = await this.$http.get('/articles/' + id);
       if (res.code === 200) {
-        console.log(res)
-        this.article = res.data
+        this.article = res.data;
       }
-    },
+    }
   },
   async created() {
     if (this.$route.params.id) {
-      await this.getArticle(this.$route.params.id)
+      await this.getArticle(this.$route.params.id);
+      this.update = true;
+      this.category = this.article.category.name;
     }
-    await this.getTags()
-    await this.getCategories()
-    this.categories.forEach(category => {this.categoryMap[category.name] = category.id})
+    await this.getTags();
+    await this.getCategories();
+    this.categories.forEach(category => {
+      this.categoryMap[category.name] = category.id;
+    });
   }
 };
 </script>

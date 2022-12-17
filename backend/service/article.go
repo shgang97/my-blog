@@ -2,6 +2,8 @@ package service
 
 import (
 	"backend/dao"
+	"backend/dao/category"
+	"backend/dao/tag"
 	"backend/model"
 	"backend/request"
 	"backend/response"
@@ -57,22 +59,53 @@ func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 }
 
 func Write(request request.ArticleRequest) (string, error) {
-	id := strings.ReplaceAll(uuid.New().String(), "-", "")
-	article := model.Article{
-		UserId:       "",
-		Title:        request.Title,
-		Content:      request.Content,
-		Cover:        "",
-		ViewCount:    0,
-		LikeCount:    0,
-		CommentCount: 0,
+	articleId := strings.ReplaceAll(uuid.New().String(), "-", "")
+	articleCategoryId := strings.ReplaceAll(uuid.New().String(), "-", "")
+	now := time.Now()
+
+	article := &request.Article
+	article.Id = articleId
+	article.CreateAt = now
+	article.UpdateAt = now
+
+	tags := request.Tags
+	var articleTags []*model.ArticleTag
+	for _, value := range tags {
+		articleTagId := strings.ReplaceAll(uuid.New().String(), "-", "")
+		articleTag := &model.ArticleTag{
+			ArticleId: articleId,
+			TagId:     value.Id,
+			BaseModel: model.BaseModel{
+				Id:       articleTagId,
+				CreateAt: now,
+				UpdateAt: now,
+			},
+		}
+		articleTags = append(articleTags, articleTag)
+	}
+
+	articleCategory := &model.ArticleCategory{
+		ArticleId:  articleId,
+		CategoryId: request.Category.Id,
 		BaseModel: model.BaseModel{
-			Id:       id,
-			CreateAt: time.Now(),
-			UpdateAt: time.Now(),
+			Pk:       0,
+			Id:       articleCategoryId,
+			CreateAt: now,
+			UpdateAt: now,
 		},
 	}
+
 	dao.Insert(article)
+	tag.BulkInsert(articleTags)
+	category.Insert(articleCategory)
+	return article.Id, nil
+}
+
+func Modify(request request.ArticleRequest) (string, error) {
+	now := time.Now()
+	article := &request.Article
+	article.UpdateAt = now
+	dao.Update(article)
 	return article.Id, nil
 }
 

@@ -1,5 +1,7 @@
 package request
 
+import "backend/model"
+
 /*
 @author: shg
 @since: 2022/12/13
@@ -7,8 +9,7 @@ package request
 */
 
 type ArticleRequest struct {
-	Title    string   `json:"title"`
-	Content  string   `json:"content"`
-	Tags     []string `json:"tags`
-	Category string   `json:"category"`
+	Article  model.Article  `form:"article"`
+	Tags     []model.Tag    `from:"tags"`
+	Category model.Category `form:"category"`
 }
