@@ -14,19 +14,31 @@
               <div>发布文章</div>
               <div class="form-item">
                 <div class="label required category-label"> 分类：</div>
-                <el-row class="mb-4">
-                  <el-button v-model="category.id" v-for="category in categories" @click="show">{{ category.name }}</el-button>
-<!--                  <el-button v-model="article.category">前端</el-button>-->
-<!--                  <el-button v-model="article.category">Android</el-button>-->
-<!--                  <el-button v-model="article.category">iOS</el-button>-->
-                </el-row>
-                <el-form-item prop="tag">
-                  <div class="label required category-label"> 标签：</div>
-                  <el-input v-model="article.tags" placeholder="请输入标签..." spellcheck="false"></el-input>
-                </el-form-item>
+                <el-radio-group v-model="category" size="large" @change="change">
+                  <el-radio-button :key="category.id" :label="category.name" v-for="category in categories" />
+                </el-radio-group>
+                <div class="label required category-label"> 标签：</div>
+                <el-select
+                    v-model="article.tags"
+                    value-key="id"
+                    multiple
+                    filterable
+                    allow-create
+                    default-first-option
+                    :reserve-keyword="false"
+                    placeholder="Choose tags for your article"
+                >
+                  <el-option
+                      v-for="tag in tags"
+                      :key="tag.id"
+                      :label="tag.name"
+                      :value="tag"
+                  />
+                </el-select>
                 <el-row class="mb-4 button-action">
                   <el-button @click="display = !display">取消</el-button>
-                  <el-button type="primary" @click="submit(article)">发布文章</el-button>
+                  <el-button type="primary" @click="write(article)" v-if="update">发布文章</el-button>
+                  <el-button type="primary" @click="modify(article)" v-else>更新文章</el-button>
                 </el-row>
               </div>
 
@@ -49,10 +61,13 @@ export default {
   name: 'Writing',
   data() {
     return {
-      article: {},
+      article: {article: {}, category: {}, tags: []},
       tags: {},
-      categories: {},
+      categories: [],
       display: false,
+      update: false,
+      category: '',
+      categoryMap: {},
       rules: {
         title: [
           {required: true, message: '请输入标题', trigger: 'blur'},
@@ -69,30 +84,26 @@ export default {
       console.log(this.article.category.id)
       console.log(this.article.category.name)
     },
-    submit(article) {
-      this.$refs['subForm'].validate((valid) => {
-
-        if (valid) {
-          console.log(article)
-          if ('/writing' === this.$route.path) {
-            this.write(this.article)
-          } else if ('/writing' === this.$route.path) {
-
-          }
-        } else {
-          return false;
-        }
-      });
+    change(value) {
+      console.log(value)
+      this.article.category = {id: this.categoryMap[value], name: value}
     },
-    async write(article) {
-      const {data: res} = await this.$http.post('/articles', article, {
-        headers: {
-          'Authorization': localStorage.getItem('token')
+    write(article) {
+      this.$refs['subForm'].validate( async (valid) => {
+        if (valid) {
+          const {data: res} = await this.$http.post('/articles', article, {
+            headers: {
+              'Authorization': localStorage.getItem('token')
+            }
+          })
+          if (res.code === 200) {
+            await this.$router.push('/articles/' + res.data)
+          }
         }
       })
-      if (res.code === 200) {
-        await this.$router.push('/articles/' + res.data)
-      }
+    },
+    modify(article) {
+      console.log(article)
     },
     save() {
       console.log(this.article.title);
@@ -123,6 +134,7 @@ export default {
     }
     await this.getTags()
     await this.getCategories()
+    this.categories.forEach(category => {this.categoryMap[category.name] = category.id})
   }
 };
 </script>
