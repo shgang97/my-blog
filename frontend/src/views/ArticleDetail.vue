@@ -8,18 +8,18 @@
         <el-aside class="aside-container">
           <div class="article-suspended-panel">
             <div class="badge">
-              <el-badge :value="article.view_count" type="info" class="badge-item">
-                <i class="iconfont icon-share"></i>
-              </el-badge>
-            </div>
-            <div class="badge">
-              <el-badge :value="article.view_count" type="info" class="badge-item">
+              <el-badge :value="article.view_count" type="info" class="badge-item center-item">
                 <i class="iconfont icon-view1"></i>
               </el-badge>
             </div>
             <div class="badge">
-              <el-badge :value="article.view_count" type="info" class="badge-item">
+              <el-badge :value="article.like_count" type="info" class="badge-item center-item">
                 <i class="iconfont icon-good"></i>
+              </el-badge>
+            </div>
+            <div class="badge">
+              <el-badge type="info" class="badge-item center-item">
+                <i class="iconfont icon-share"></i>
               </el-badge>
             </div>
           </div>
@@ -152,7 +152,7 @@ export default {
   font-size: 26px;
 }
 
-.badge-item {
+.center-item {
   top: 9px;
   left: 9px;
 }

@@ -5,8 +5,8 @@ import (
 	"backend/model"
 	"backend/request"
 	"backend/response"
+	"backend/result"
 	"github.com/google/uuid"
-	"log"
 	"strings"
 	"time"
 )
@@ -18,44 +18,37 @@ import (
 */
 
 func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
-	articles, err := dao.GetArticlesByPage(page, pageSize)
-	total := dao.GetArticlesTotal()
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
+	articleCategories, _ := dao.GetArticleCategoryByPage(page, pageSize)
 
-	var responses []*response.ArticleResponse
+	var responses []*response.ArticleInfo
 	var ids []string
-	for _, article := range articles {
-		ids = append(ids, article.Id)
+	for _, value := range articleCategories {
+		ids = append(ids, value.Id)
 	}
-	//articleTagMap, _ := dao.GetTagByArticleIds(ids)
-	//articleCategoryMap, _ := dao.GetCategoryByArticleIds(ids)
-	for _, article := range articles {
-		//articleTag := articleTagMap[article.Id]
-		//var tagIds, tagNames []string
-		//if articleTag != nil {
-		//	tagIds = articleTag.TagIds
-		//	tagNames = articleTag.TagNames
-		//}
-		//articleCategory := articleCategoryMap[article.Id]
-		//var categoryId, categoryName string
-		//if articleCategory != nil {
-		//	categoryId = articleCategory.CategoryId
-		//	categoryName = articleCategory.CategoryName
-		//}
-		response := &response.ArticleResponse{
-			Id:           article.Id,
-			Title:        article.Title,
-			Description:  article.Content,
-			Cover:        article.Cover,
-			ViewCount:    article.ViewCount,
-			LikeCount:    article.LikeCount,
-			CommentCount: article.CommentCount,
-		}
-		responses = append(responses, response)
+	articleTags, _ := dao.GetArticleTagByArticleIds(ids)
+	for _, value := range articleCategories {
+		responses = append(responses, &response.ArticleInfo{
+			Article: &result.Article{
+				Id:           value.Id,
+				UserId:       value.UserId,
+				Title:        value.Title,
+				Content:      value.Content,
+				Cover:        value.Cover,
+				ViewCount:    value.ViewCount,
+				LikeCount:    value.LikeCount,
+				CommentCount: value.CommentCount,
+				CreateAt:     value.CreateAt,
+				UpdateAt:     value.UpdateAt,
+			},
+			Tags: articleTags[value.Id],
+			Category: &result.Category{
+				Id:   value.CategoryId,
+				Name: value.CategoryName,
+			},
+		})
+		ids = append(ids, value.Id)
 	}
+	total := dao.GetArticlesTotal()
 	pageResult := &response.PageResult{
 		Data:  responses,
 		Total: total,

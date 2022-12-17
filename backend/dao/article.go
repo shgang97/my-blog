@@ -3,8 +3,6 @@ package dao
 import (
 	"backend/model"
 	result2 "backend/result"
-	"log"
-	"strings"
 )
 
 /*
@@ -13,37 +11,17 @@ import (
 @desc: //TODO
 */
 
-func GetWithTagAndCategoryByPage(page, pageSize int) ([]result2.ArticleCategoryResult, error) {
-	rows, err := Db.Table("blog_article").
-		Select("blog_article.id, blog_article.title, blog_article.content, blog_article.cover, blog_article.view_count, blog_article.like_count, blog_article.comment_count, blog_article.update_at, blog_article.create_at, blog_article_category.id").
+func GetArticleCategoryByPage(page, pageSize int) ([]*result2.ArticleCategory, error) {
+	var results []*result2.ArticleCategory
+	Db.Table("blog_article").
+		Select("blog_article.id, blog_article.title, blog_article.content, blog_article.cover, blog_article.view_count, blog_article.like_count, blog_article.comment_count, blog_article.update_at, blog_article.create_at, blog_category.id as category_id, blog_category.name as category_name").
 		Joins("left join blog_article_category on blog_article.id = blog_article_category.article_id").
+		Joins("left join blog_category on blog_category.id=blog_article_category.category_id").
 		Order("blog_article.create_at").
 		Offset((page - 1) * pageSize).
 		Limit(pageSize).
-		Rows()
-	if err != nil {
-		log.Println(err)
-		return nil, nil
-	}
-	var results []result2.ArticleCategoryResult
-	for rows.Next() {
-		var result result2.ArticleCategoryResult
-		_ = rows.Scan(&result.Id, &result.Title, &result.Description, &result.Cover, &result.ViewCount, &result.LikeCount, &result.CommentCount, &result.UpdateAt, &result.CreateAt, &result.CategoryId)
-		results = append(results, result)
-	}
+		Find(&results)
 	return results, nil
-}
-
-func GetArticlesByPage(page, pageSize int) ([]*model.Article, error) {
-	var articles []*model.Article
-	result := Db.Model(&model.Article{}).
-		Offset((page - 1) * pageSize).
-		Limit(pageSize).
-		Find(&articles)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return articles, nil
 }
 
 func GetArticlesTotal() int {
@@ -53,48 +31,30 @@ func GetArticlesTotal() int {
 	return int(total)
 }
 
-func GetTagByArticleIds(ids []string) (map[string]*result2.ArticleTag, error) {
+func GetArticleTagByArticleIds(ids []string) (map[string][]*result2.Tag, error) {
 	var results []map[string]interface{}
 	Db.Table("blog_article_tag").
-		Select("blog_article_tag.article_id, GROUP_CONCAT(DISTINCT blog_article_tag.tag_id) as tag_ids, GROUP_CONCAT(DISTINCT blog_tag.name) as tag_names").
-		Joins("left join blog_tag on blog_article_tag.tag_id = blog_tag.id").
+		Select("blog_article_tag.article_id, blog_article_tag.tag_id as tag_id, blog_tag.name as tag_name").
+		Joins("left join blog_tag on blog_article_tag.tag_id=blog_tag.id").
 		Where("blog_article_tag.article_id IN ?", ids).
-		Group("blog_article_tag.article_id").
 		Find(&results)
 
-	articleTagMap := map[string]*result2.ArticleTag{}
+	articleTagMap := map[string][]*result2.Tag{}
 	for _, result := range results {
 		articleId := result["article_id"].(string)
-		tagIds := strings.Split(result["tag_ids"].(string), ",")
-		tagNames := strings.Split(result["tag_names"].(string), ",")
-		articleTagMap[articleId] = &result2.ArticleTag{
-			ArticleId: articleId,
-			TagIds:    tagIds,
-			TagNames:  tagNames,
+		tagId := result["tag_id"].(string)
+		tagName := result["tag_name"].(string)
+		tag := &result2.Tag{
+			Id:   tagId,
+			Name: tagName,
+		}
+		if tags, ok := articleTagMap[articleId]; ok {
+			articleTagMap[articleId] = append(tags, tag)
+		} else {
+			articleTagMap[articleId] = []*result2.Tag{tag}
 		}
 	}
 	return articleTagMap, nil
-}
-
-func GetCategoryByArticleIds(ids []string) (map[string]*result2.ArticleCategory, error) {
-	var results []map[string]interface{}
-	Db.Table("blog_article_category").
-		Select("blog_article_category.article_id, blog_article_category.category_id, blog_category.name").
-		Joins("left join blog_category on blog_article_category.category_id=blog_category.id").
-		Where("blog_article_category.article_id IN ?", ids).
-		Find(&results)
-	articleCategoryMap := map[string]*result2.ArticleCategory{}
-	for _, result := range results {
-		articleId := result["article_id"].(string)
-		categoryId := result["category_id"].(string)
-		categoryName := result["category_name"].(string)
-		articleCategoryMap[articleId] = &result2.ArticleCategory{
-			ArticleId:    articleId,
-			CategoryId:   categoryId,
-			CategoryName: categoryName,
-		}
-	}
-	return articleCategoryMap, nil
 }
 
 func Insert(article model.Article) (string, error) {

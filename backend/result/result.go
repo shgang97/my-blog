@@ -22,15 +22,24 @@ type ArticleCategoryResult struct {
 }
 
 type ArticleTag struct {
-	ArticleId string
-	TagIds    []string
-	TagNames  []string
+	ArticleId string `json:"article_id"`
+	TagId     string `json:"tag_id"`
+	TagName   string `json:"tag_name"`
 }
 
 type ArticleCategory struct {
-	ArticleId    string
-	CategoryId   string
-	CategoryName string
+	Id           string    `json:"id"`
+	UserId       string    `json:"user_id"`
+	Title        string    `json:"title"`
+	Content      string    `json:"content"`
+	Cover        string    `json:"cover"`
+	ViewCount    int       `json:"view_count"`
+	LikeCount    int       `json:"like_count"`
+	CommentCount int       `json:"comment_count"`
+	CreateAt     time.Time `json:"create_at"`
+	UpdateAt     time.Time `json:"update_at"`
+	CategoryId   string    `json:"category_id"`
+	CategoryName string    `json:"category_name"`
 }
 
 type Article struct {

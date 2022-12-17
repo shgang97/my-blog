@@ -3,37 +3,36 @@
     <div class="article-list">
       <div class="article-container" v-for="article in articles">
         <div class="meta-container">
-          <div class="date vertical-line">1个月前</div>
+          <div class="date vertical-line">{{article.article.create_at}}</div>
           <div class="tag-list ">
             <div class="tag vertical-line">
               <router-link class="tag vertical-line"
-                           :to="'/tag/' + id"
-                           :key="id"
-                           v-for="(id, index) in article.tag_ids">#{{ article.tag_names[index] }}
+                           :to="'/tag/' + tag.id"
+                           :key="tag.id"
+                           v-for="tag in article.tags">#{{ tag.name }}
               </router-link>
             </div>
           </div>
           <div class="category vertical-line">
-            <router-link :to="'/category/' + article.category_id">{{ article.category_name }}</router-link>
+            <router-link :to="'/category/' + article.category.id">{{ article.category.name }}</router-link>
           </div>
         </div>
         <div class="content-wrapper">
           <div class="title">
-            <router-link :to="'/article/' + article.id">{{ article.title }}</router-link>
+            <router-link :to="'/article/' + article.article.id">{{ article.article.title }}</router-link>
           </div>
-          <div class="abstract">{{ article.description }}</div>
+          <div class="abstract">{{ article.article.content }}</div>
           <ul class="action-list">
-            <li class="item view"><i class="iconfont icon-view1"></i><span>{{ article.viewCount }}</span></li>
-            <li class="item comment"><i class="iconfont icon-comment_fill_light"></i><span>{{ article.commentCount }}</span></li>
-            <li class="item like"><i class="iconfont icon-good"></i><span>{{ article.likeCount }}</span></li>
+            <li class="item view"><i class="iconfont icon-view1"></i><span>{{ article.article.view_count }}</span></li>
+            <li class="item comment"><i class="iconfont icon-comment_fill_light"></i><span>{{ article.article.comment_count }}</span></li>
+            <li class="item like"><i class="iconfont icon-good"></i><span>{{ article.article.like_count }}</span></li>
           </ul>
         </div>
       </div>
     </div>
-    <div>
+    <div class="pagination-container">
       <el-pagination
           small
-          background
           layout="prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
@@ -61,9 +60,7 @@ export default {
     async postPage(page) {
       this.currentPage = page;
       const {data: res} = await this.$http.get('/articles', {params: {page: this.currentPage, pageSize: this.pageSize}});
-
       this.articles = res.data.data;
-      console.log(this.articles)
       this.total = res.data.total;
     }
   },
@@ -123,6 +120,10 @@ li > i {
   width: 100%;
   background-color: white;
   margin-bottom: 5px;
+}
+
+.pagination-container {
+  margin-top: 5px;
 }
 
 .action-list {
