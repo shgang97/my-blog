@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <a href="/" class="logo">
-      <img src="../assets/images/logo.jpeg" alt="logo-img" class="logo-img">
+    <a href="/" class="navbar-brand">
+      <strong>心月狐的流火号</strong>
     </a>
 
     <div class="nav-container nav-container-left">
@@ -87,17 +87,17 @@ export default {
         headers: {
           'Authorization': localStorage.getItem('token')
         }
-      })
-      this.hasLogin = false
-      this.$store.commit('REMOVE_INFO')
-      await this.$router.push('/login')
+      });
+      this.hasLogin = false;
+      this.$store.commit('REMOVE_INFO');
+      await this.$router.push('/login');
     }
   },
   created() {
     if (this.$store.getters.getUser.username) {
-      this.userInfo.username = this.$store.getters.getUser.username
-      this.userInfo.avatar = this.$store.getters.getUser.avatar
-      this.hasLogin = true
+      this.userInfo.username = this.$store.getters.getUser.username;
+      this.userInfo.avatar = this.$store.getters.getUser.avatar;
+      this.hasLogin = true;
     }
   }
 };
@@ -121,15 +121,17 @@ export default {
 .nav-container {
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 40%;
 }
 
-a.logo {
-  display: flex;
+.navbar-brand {
   align-items: center;
   font: normal 28px Cookie, Arial, Helvetica, sans-serif;
   padding: 0px 10px;
-  width: 10%;
+  width: 15%;
+  color: white;
+  text-decoration: none;
+  text-align: center;
 }
 
 img {
@@ -139,7 +141,7 @@ img {
 nav {
   display: flex;
   align-items: center;
-  margin: 0px 40px;
+  margin: 0px 10px;
   font: 16px Arial, Helvetica, sans-serif;
 }
 
@@ -150,10 +152,6 @@ nav {
 .write-article-link {
   width: 120px;
 }
-
-/*/deep/ router-link {*/
-/*  padding: 0 10px;*/
-/*}*/
 
 nav a {
   padding: 0 5px;
@@ -169,14 +167,7 @@ nav a:hover {
   opacity: 1;
 }
 
-.router-link-active {
-  color: #608bd2;
-  pointer-events: none;
-  opacity: 1;
-}
-
 /*搜索框*/
-
 .text {
   height: 22px;
   font-size: 18px;
