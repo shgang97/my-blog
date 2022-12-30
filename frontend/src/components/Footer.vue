@@ -12,7 +12,7 @@
     </div>
     <div>
       <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011719" target="_blank">
-        <img src="../assets/images/gongan.png" width="20" style="position: relative;top: 4px;">
+        <img src="http://blog-img.shgang.cn/assets/images/gongan.png?e=1672406562&token=s7XYXd9Z6TqeL7l2M4PEfs8kbhlVsuP9W9H6RnOm:_7OlbCKk2IYsQxWwZHZpphoojm8=" width="20" style="position: relative;top: 4px;">
         苏公网安备 32011502011719号
       </a>
     </div>
