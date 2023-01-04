@@ -87,7 +87,7 @@ export default {
     },
     async handleLogin() {
       const {data: res} = await this.$http.post('/login', this.loginForm)
-      if (res.code !== 200) return alert('请求数据失败！')
+      if (res.code !== 200) return alert('登录失败！')
       let data = res.data
       const token = data.token
       const userInfo = data.userInfo
