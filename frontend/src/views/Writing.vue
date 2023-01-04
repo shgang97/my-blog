@@ -51,7 +51,11 @@
       </div>
       <div class="main">
         <el-form-item class="v-md-editor-container" prop="article.content" :rules="rules.content">
-          <v-md-editor v-model="article.article.content" height="800px"></v-md-editor>
+          <v-md-editor
+              v-model="article.article.content"
+              height="800px"
+              :disabled-menus="[]"
+              @upload-image="handleUploadImage"></v-md-editor>
         </el-form-item>
       </div>
     </el-form>
@@ -59,6 +63,7 @@
 </template>
 
 <script>
+import * as qiniu from 'qiniu-js'
 export default {
   name: 'Writing',
   data() {
@@ -127,7 +132,46 @@ export default {
       if (res.code === 200) {
         this.article = res.data;
       }
-    }
+    },
+    async handleUploadImage(event, insertImage, files) {
+      const {data: res} = await this.$http.get("/qiniu/token", {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      })
+      if (res.code !== 200) return alert(res.error);
+      const token = res.data;
+
+      const config = {
+        useCdnDomain: false,
+        //自行去改七牛云的空间区域的配置
+        region: 'cn-east-2'
+      };
+      const putExtra = {
+      };
+      const file = files[0];
+      const path = "blog/upload/" + Date.now() + "_";
+      let observer = {
+        next(res){
+          // ...
+        },
+        error(err){
+          // ...
+        },
+        complete(res){
+          console.log(res)
+          insertImage({
+            url:
+                'http://blog-img.shgang.cn/' + res.key,
+            desc: file.name.substring(0, file.name.lastIndexOf(".")),
+            // width: 'auto',
+            // height: 'auto',
+          })
+        }
+      }
+      let observable = qiniu.upload(file, path + file.name, token, putExtra, config)
+      let subscription = observable.subscribe(observer) // 上传开始
+    },
   },
   async created() {
     if (this.$route.params.id) {

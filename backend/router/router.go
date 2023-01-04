@@ -3,6 +3,7 @@ package router
 import (
 	"backend/api"
 	"backend/api/category"
+	"backend/api/qiniu"
 	"backend/api/tag"
 	"backend/api/user"
 	"backend/middleware"
@@ -59,10 +60,16 @@ func Router() {
 		tagUnauthRouter.GET("", tag.List)
 	}
 
-	// 标签管理
+	// 类别管理
 	categoryUnauthRouter := unauthRouter.Group("/categories")
 	{
 		categoryUnauthRouter.GET("", category.List)
+	}
+
+	// qiniu token
+	qiniuAuthRouter := authRouter.Group("/qiniu")
+	{
+		qiniuAuthRouter.GET("/token", qiniu.GetToken)
 	}
 
 	_ = router.Run(":8080")

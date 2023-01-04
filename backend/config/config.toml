@@ -3,3 +3,6 @@
     Port = ""
     UserName = ""
     Password = ""
+[qiniu]
+    QiniuAccessKey = ""
+    QiniuSecretKey = ""

@@ -13,6 +13,7 @@ import (
 
 type tomlConfig struct {
 	DataSource DataSource
+	Qiniu      Qiniu
 }
 
 type DataSource struct {
@@ -20,6 +21,11 @@ type DataSource struct {
 	Port     string
 	UserName string
 	Password string
+}
+
+type Qiniu struct {
+	QiniuAccessKey string
+	QiniuSecretKey string
 }
 
 var Config *tomlConfig
