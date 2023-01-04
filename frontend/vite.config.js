@@ -1,5 +1,5 @@
 export default {
     optimizeDeps: {
-        include: ['@kangc/v-md-editor/lib/theme/vuepress.js'],
+        include: ['@kangc/v-md-editor/lib/theme/github.js'],
     },
 };
