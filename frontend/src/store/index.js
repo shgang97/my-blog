@@ -3,8 +3,8 @@ import {createStore} from 'vuex'
 export default createStore({
     state() {
         return {
-            token: '',
-            userInfo: {}
+            token: localStorage.getItem("token") || '',
+            userInfo: JSON.parse(sessionStorage.getItem("userInfo")) || {}
         }
     },
     mutations: {
