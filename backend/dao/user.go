@@ -1,37 +1,20 @@
 package dao
 
 import (
-	"log"
-	"my-blog/backend/models"
+	"backend/model"
 )
 
 /*
 @author: shg
-@since: 2022/10/15
+@since: 2022/12/4
 @desc: //TODO
 */
 
-func GetUserNameById(id int) string {
-	row := Db.QueryRow("select user_name from user where id = ?", id)
-	if row.Err() != nil {
-		log.Println(row.Err())
+func GetUser(username, password string) (*model.User, error) {
+	var user model.User
+	result := Db.Select("id", "username", "avatar").Where("username = ?", username).Where("password = ?", password).Take(&user)
+	if result.RowsAffected > 0 {
+		return &user, nil
 	}
-	var categoryName string
-	_ = row.Scan(&categoryName)
-	return categoryName
-}
-
-func GetUser(userName, password string) *models.User {
-	row := Db.QueryRow("select * from user where username = ? and password = ?", userName, password)
-	if row.Err() != nil {
-		log.Println(row.Err())
-		return nil
-	}
-	var user models.User
-	err := row.Scan(&user.Id, &user.UserName, &user.Avatar, &user.Email, &user.Password, &user.Status, &user.CreateTime, &user.LastLogin)
-	if err != nil {
-		log.Println("dao GetUser:", err)
-		return nil
-	}
-	return &user
+	return nil, result.Error
 }

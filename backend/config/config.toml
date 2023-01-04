@@ -1,29 +1,8 @@
-[viewer]
-    Title = "shgang's blog"
-    Description = "一个专注于软件开发技术分享的网站"
-    Logo = "/resource/images/logo.jpg"
-    Navigation = ["首页", "/", "Go语言", "/slug/golang", "归档", "/pigeonhole", "关于", "/about"]
-    Github = "https://github.com/shgang97"
-    Bilibili = "https://space.bilibili.com/371056419"
-    Zhihu = "https://space.bilibili.com/371056419"
-    Avatar = "/resource/images/personal-avatar.png"
-    UserName = "shgang"
-    UserDesc = "后端开发/国际米兰球迷<br/>a self-taught passionate Java developer from China🇨🇳"
-[system]
-    CdnURL = "https://static.mszlu.com/goblog/es6/md-assets"
-	QiniuAccessKey = "s7XYXd9Z6TqeL7l2M4PEfs8kbhlVsuP9W9H6RnOm"
-	QiniuSecretKey = "CNYUlFTarXay7gieYLcl5-lkbemcsBPCdfBfuurf"
-	Valine = true
-	ValineAppId = "mLT1LAg30xLSQob91AaIyCYF-gzGzoHsz"
-	ValineAppKey = "wrk1vSwKypa1HIEmSSOgRTD2"
-	ValineServerURL = "https://mlt1lag3.lc-cn-n1-shared.com"
 [dataSource]
-    IP = "localhost"
-    Port = "3306"
-    UserName = "root"
-    Password = "root"
-[comment]
-    Valine = true
-    ValineAppId = "mLT1LAg30xLSQob91AaIyCYF-gzGzoHsz"
-    ValineAppKey = "wrk1vSwKypa1HIEmSSOgRTD2"
-    ValineServerURL = "https://mlt1lag3.lc-cn-n1-shared.com"
+    IP = ""
+    Port = ""
+    UserName = ""
+    Password = ""
+[qiniu]
+    QiniuAccessKey = ""
+    QiniuSecretKey = ""

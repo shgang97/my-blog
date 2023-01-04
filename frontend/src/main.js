@@ -1,26 +1,28 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import Element from 'element-ui'
-import axios from 'axios'
+import {createApp} from 'vue';
+import App from './App.vue';
+import './index.css';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+import router from './router/index.js';
+import '../public/style/iconfont/iconfont.css';
+import store from './store';
+import axios from 'axios';
+import {VueMarkdownEditor}  from './plugins/vmdeditor/index';
+import dateformat from "./dateformat";
 
-import mavonEditor from 'mavon-editor'
+const app = createApp(App);
 
-import "element-ui/lib/theme-chalk/index.css"
-import 'mavon-editor/dist/css/index.css'
+axios.defaults.baseURL = 'http://blog.shgang.cn:8080/api/blog';
+app.config.globalProperties.$http = axios;
+app.config.globalProperties.$dataFormat = dateformat;
 
-import "./axios"
-import "./permission"
+app.use(ElementPlus);
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component);
+}
 
-Vue.use(Element)
-Vue.use(mavonEditor)
-
-Vue.config.productionTip = false
-Vue.prototype.$axios = axios
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.use(router);
+app.use(store);
+app.use(VueMarkdownEditor);
+app.mount('#app');

@@ -1,40 +1,42 @@
 package service
 
 import (
-	"errors"
-	"log"
-	"my-blog/backend/dao"
-	models2 "my-blog/backend/models"
-	util2 "my-blog/backend/util"
+	"backend/dao"
+	"backend/middleware"
+	"backend/model"
+	"backend/request"
+	"backend/response"
+	"backend/utils"
 )
 
 /*
 @author: shg
-@since: 2022/10/16
+@since: 2022/12/4
 @desc: //TODO
 */
 
-func Login(userName, password string) (*models2.LoginRes, error) {
-	password = util2.Md5Crypt(password, "shgang")
-	user := dao.GetUser(userName, password)
-	if user == nil {
-		log.Println("login failed")
-		return nil, errors.New("login failed")
-	}
-	uid := user.Id
-	// 生成token jwt
-	token, err := util2.Award(&uid)
+func Login(request *request.LoginRequest) (*response.LoginResponse, error) {
+	username := request.Username
+	password := request.Password
+	password = utils.Md5Crypt(password, "salt")
+	// 校验用户名和密码查询
+	user, err := dao.GetUser(username, password)
 	if err != nil {
-		log.Println("util.Award:", err)
-		return nil, errors.New("failed to generate token")
+		return nil, err
 	}
-	var userInfo models2.UserInfo
-	userInfo.Id = user.Id
-	userInfo.UserName = user.UserName
-	userInfo.Avatar = user.Avatar
-	var loginRes = &models2.LoginRes{
-		Token:    token,
+	// 生成 token
+	token, err := middleware.GenToken(user.Id)
+	if err != nil {
+		return nil, err
+	}
+	userInfo := &model.UserInfo{
+		Id:       user.Id,
+		Username: user.Username,
+		Avatar:   user.Avatar,
+	}
+	loginUserRes := &response.LoginResponse{
 		UserInfo: userInfo,
+		Token:    token,
 	}
-	return loginRes, nil
+	return loginUserRes, nil
 }

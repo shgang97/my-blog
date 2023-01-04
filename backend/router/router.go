@@ -1,61 +1,76 @@
 package router
 
 import (
-	"my-blog/backend/api"
-	"net/http"
+	"backend/api"
+	"backend/api/category"
+	"backend/api/qiniu"
+	"backend/api/tag"
+	"backend/api/user"
+	"backend/middleware"
+	"github.com/gin-gonic/gin"
 )
 
 /*
 @author: shg
-@since: 2022/10/14
+@since: 2022/11/29
 @desc: //TODO
 */
 
-// Router 路由/**
+const ContextPath = "/api/blog"
+
 func Router() {
-	// 1. 页面 views 2. 数据（json） 3.静态资源
-	// 首页
-	//http.HandleFunc("/", cors(views.HTML.Index))
-	// 根据分类查询
-	//http.HandleFunc("/c/", cors(views.HTML.Category))
-	//// 根据文章id获取文章
-	//http.HandleFunc("/p/", cors(views.HTML.Detail))
-	//// 写作页面
-	//http.HandleFunc("/writing/", cors(views.HTML.Writing))
-	//// 归档页面
-	//http.HandleFunc("/pigeonhole", cors(views.HTML.Pigeonhole))
-	// 发布和更新文章
-	//http.HandleFunc("/api/post", cors(api.API.SaveAndUpdate))
-	//// 获取发布后的文章
-	//http.HandleFunc("/api/post/", cors(api.API.GetPost))
-	//// 根据关键字搜索文章
-	//http.HandleFunc("/api/search", cors(api.API.SearchPost))
-	//	上传图片
-	//http.HandleFunc("/api/qiniu/token", cors(api.API.GetQiniuToken))
-	//http.HandleFunc("/writing/?id", views.HTML.GetPost)
-	http.HandleFunc("/api/login", cors(api.API.Login))
-	http.HandleFunc("/api/logout", cors(api.API.Logout))
+	router := gin.New()
+	router.Use(middleware.Cors())
 
-	// 文章列表
-	http.HandleFunc("/api/posts", cors(api.API.Posts))
-	http.HandleFunc("/api/post/", cors(api.API.Detail))
-	http.HandleFunc("/api/post/edit", cors(api.API.Edit))
+	// TODO 不需要登录路由
+	unauthRouter := router.Group(ContextPath)
 
-	// 静态资源路由
-	//http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
-}
+	// TODO 需要登录路由
+	authRouter := router.Group(ContextPath)
+	authRouter.Use(middleware.JWT())
 
-func cors(f http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")                                                            // 允许访问所有域，可以换成具体url，注意仅具体url才能带cookie信息
-		w.Header().Add("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization, Token") //header的类型
-		w.Header().Add("Access-Control-Allow-Credentials", "true")                                                    //设置为true，允许ajax异步请求带cookie信息
-		w.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT")                             //允许请求方法
-		w.Header().Add("Content-Type", "application/json;charset=UTF-8")                                              //返回数据格式是json
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusNoContent)
-			return
-		}
-		f(w, r)
+	unauthRouter.POST("/login", api.Login)
+	authRouter.GET("logout", api.Logout)
+
+	userRouter := authRouter.Group("/user")
+	{
+		userRouter.GET("/get", user.UserGet)
+		userRouter.POST("/post", user.UserPost)
 	}
+
+	// 文章管理
+	articleUnauthRouter := unauthRouter.Group("/articles")
+	articleAuthRouter := authRouter.Group("/articles")
+	{
+		// 分页获取文章列表
+		articleUnauthRouter.GET("", api.List)
+		// 根据 id 阅读文章
+		articleUnauthRouter.GET("/:id", api.Read)
+		// 添加文章
+		articleAuthRouter.POST("", api.Write)
+		// 更新文章
+		articleAuthRouter.PUT("/:id", api.Modify)
+		// 删除文章
+		articleAuthRouter.DELETE("/:id", api.Delete)
+	}
+
+	// 标签管理
+	tagUnauthRouter := unauthRouter.Group("/tags")
+	{
+		tagUnauthRouter.GET("", tag.List)
+	}
+
+	// 类别管理
+	categoryUnauthRouter := unauthRouter.Group("/categories")
+	{
+		categoryUnauthRouter.GET("", category.List)
+	}
+
+	// qiniu token
+	qiniuAuthRouter := authRouter.Group("/qiniu")
+	{
+		qiniuAuthRouter.GET("/token", qiniu.GetToken)
+	}
+
+	_ = router.Run(":8080")
 }

@@ -1,128 +1,128 @@
 <template>
   <div>
+    <el-card class="login-form-layout">
+      <el-form
+          autocomplete="on"
+          :model="loginForm"
+          ref="loginForm"
+          label-position="left"
+          :rules="rules"
+      >
+        <div style="text-align: center">
+          <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
+        </div>
+        <h2 class="login-title color-main">账号密码登录</h2>
+        <el-form-item prop="username" class="input-row">
 
-    <el-container>
-      <el-header>
-        <img class="mlogo" src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" alt="">
-      </el-header>
-      <el-main>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="ruleForm.password"></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-
-      </el-main>
-    </el-container>
-
+          <el-input
+              name="username"
+              type="text"
+              v-model="loginForm.username"
+              autocomplete="on"
+              placeholder="请输入用户名"
+          >
+            <template #prefix><i class="iconfont icon-user"/></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password" class="input-row">
+          <el-input
+              name="password"
+              :type="pwdType"
+              @keyup.enter.native="login"
+              v-model="loginForm.password"
+              autocomplete="on"
+              placeholder="请输入密码"
+          >
+            <template #prefix><i class="iconfont icon-mima"/></template>
+<!--            <template #suffix v-if="show" @click="showPwd"><i class="iconfont icon-icon_login_input_password_default"/></template>-->
+<!--            <template #suffix v-else @click="showPwd"><i class="iconfont icon-icon_login_input_password_pressed"/></template>-->
+          </el-input>
+        </el-form-item>
+        <el-form-item style="margin-bottom: 60px">
+          <el-button
+              style="width: 100%"
+              type="primary"
+              :loading="loading"
+              @click.native.prevent="login"
+          >登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "Login",
-    data() {
-      return {
-        ruleForm: {
-          username: 'markerhub',
-          password: '111111'
-        },
-        rules: {
-          username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: '请选择密码', trigger: 'change' }
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            const _this = this
-            this.$axios.post('/api/login', this.ruleForm).then(res => {
 
-              let loginRes = res.data.data;
-              const jwt = loginRes.token;
-              const userInfo = loginRes.userInfo;
-
-              // 把数据共享出去
-              _this.$store.commit("SET_TOKEN", jwt)
-              _this.$store.commit("SET_USERINFO", userInfo)
-
-              // 获取
-              console.log(_this.$store.getters.getUser)
-
-              _this.$router.push("/posts")
-            })
-
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+export default {
+  name: 'login',
+  data() {
+    return {
+      loginForm: {
+        username: '',
+        password: ''
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请选择密码', trigger: 'change' }
+        ]
+      },
+      loading: false,
+      pwdType: 'password',
+    };
+  },
+  methods: {
+    login() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.handleLogin()
+        } else {
+          return false;
+        }
+      })
+    },
+    async handleLogin() {
+      const {data: res} = await this.$http.post('/login', this.loginForm)
+      if (res.code !== 200) return alert('请求数据失败！')
+      let data = res.data
+      const token = data.token
+      const userInfo = data.userInfo
+      this.$store.commit('SET_TOKEN', token)
+      this.$store.commit('SET_USERINFO', userInfo)
+      await this.$router.push('/home')
     }
   }
+};
 </script>
 
 <style scoped>
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
+.login-form-layout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 360px;
+  margin: 140px auto;
+  border-top: 10px solid #292c2f;
+}
 
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
+.input-row {
+  display: flex;
+}
 
-  .el-main {
-    /*background-color: #E9EEF3;*/
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
+.login-title {
+  text-align: center;
+}
 
-  body > .el-container {
-    margin-bottom: 40px;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-  }
-
-  .mlogo {
-    height: 60%;
-    margin-top: 10px;
-  }
-
-  .demo-ruleForm {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
+.login-center-layout {
+  background: #409eff;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: 200px;
+}
 </style>

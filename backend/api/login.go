@@ -1,27 +1,38 @@
 package api
 
 import (
-	"log"
-	"my-blog/backend/common"
-	"my-blog/backend/service"
-	"net/http"
+	"backend/common"
+	"backend/constant"
+	request2 "backend/request"
+	"backend/service"
+	"errors"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 /*
 @author: shg
-@since: 2022/10/16
+@since: 2022/12/4
 @desc: //TODO
 */
 
-func (api *Api) Login(w http.ResponseWriter, r *http.Request) {
-	// 接收用户名和密码 返回 对应的json数据
-	params := common.GetRequestJsonParam(r)
-	userName := params["username"].(string)
-	password := params["password"].(string)
-	loginRes, err := service.Login(userName, password)
+func Login(ctx *gin.Context) {
+	var request request2.LoginRequest
+
+	err := ctx.ShouldBindJSON(&request)
 	if err != nil {
-		log.Println("api Login:", err)
-		common.Fail(w, err)
+		common.Fail(ctx, constant.ERROR_LOGIN_FAILED)
+		return
 	}
-	common.Success(w, loginRes)
+
+	response, err := service.Login(&request)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			common.Fail(ctx, constant.ERROR_USERNAME_OR_PASSWORD_NOT_EXIST)
+		} else {
+			common.Fail(ctx, constant.ERROR_LOGIN_FAILED)
+		}
+		return
+	}
+	common.Success(ctx, response)
 }
