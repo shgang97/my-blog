@@ -120,3 +120,8 @@ func GetArticleById(id string) (*response.ArticleDetail, error) {
 	}
 	return articleRes, nil
 }
+
+func DeleteArticleById(id string) error {
+	dao.UpdateIsDelete(id)
+	return nil
+}

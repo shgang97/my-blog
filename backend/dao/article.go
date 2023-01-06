@@ -14,6 +14,7 @@ import (
 func GetArticleCategoryByPage(page, pageSize int) ([]*result2.ArticleCategory, error) {
 	var results []*result2.ArticleCategory
 	Db.Table("blog_article").
+		Where("blog_article.is_delete = ?", 0).
 		Select("blog_article.id, blog_article.title, blog_article.content, blog_article.cover, blog_article.view_count, blog_article.like_count, blog_article.comment_count, blog_article.update_at, blog_article.create_at, blog_category.id as category_id, blog_category.name as category_name").
 		Joins("left join blog_article_category on blog_article.id = blog_article_category.article_id").
 		Joins("left join blog_category on blog_category.id=blog_article_category.category_id").
@@ -27,6 +28,7 @@ func GetArticleCategoryByPage(page, pageSize int) ([]*result2.ArticleCategory, e
 func GetArticlesTotal() int {
 	var total int64
 	Db.Model(&model.Article{}).
+		Where("blog_article.is_delete = ?", 0).
 		Count(&total)
 	return int(total)
 }
@@ -96,4 +98,10 @@ func GetTagsByArticleId(articleId string) ([]*result2.Tag, error) {
 
 func Update(article *model.Article) {
 	Db.Model(&model.Article{}).Where("id = ?", article.Id).Updates(article)
+}
+
+func UpdateIsDelete(id string) {
+	Db.Model(&model.Article{}).
+		Where("id = ?", id).
+		Update("is_delete", 1)
 }

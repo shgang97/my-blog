@@ -30,7 +30,7 @@
             <h1 class="title">{{ article.title }}</h1>
             <div class="meta-info">
               <div>本文最后编辑于：{{ dateFormat(article.update_at, "yyyy年MM月dd日 hh:mm") }}
-                <router-link class="edit-button" :to="'/writing/' + article.id">编辑</router-link>
+                <router-link class="edit-button" :to="'/writing/' + article.id" v-if="canUpdate">编辑</router-link>
               </div>
               <div>
                 <router-link class="tag vertical-line"
@@ -65,7 +65,8 @@ export default {
     return {
       article: {},
       tags: [],
-      category: ''
+      category: '',
+      canUpdate: false
     };
   },
   components: {Header},
@@ -78,13 +79,18 @@ export default {
     }
   },
   created() {
+    if (this.$store.getters.getUser.username) {
+      this.canUpdate = true
+    } else {
+      this.canUpdate = false
+    }
     const id = this.$route.params.id;
     this.getArticle(id)
   },
   computed: {
     dateFormat() {
       return this.$dataFormat
-    }
+    },
   }
 };
 </script>
