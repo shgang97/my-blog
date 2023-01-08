@@ -1,7 +1,7 @@
 <template>
   <div class="article-page-container">
     <div class="article-list">
-      <div class="article-container" v-for="article in articles">
+      <div class="article-container" v-for="article in articles" :key="article.article.id">
         <div class="meta-container">
           <div class="date vertical-line">{{dateFormat(article.article.update_at, "yyyy年MM月dd日 hh:mm")}}</div>
           <div class="tag-list ">
@@ -16,12 +16,17 @@
           <div class="category vertical-line">
             <router-link :to="'/category/' + article.category.id">{{ article.category.name }}</router-link>
           </div>
+          <div class="delete vertical-line">
+            <el-button v-if="canDelete" class="delete-button" @click="deleteArticle(article.article.id)">删除</el-button>
+          </div>
         </div>
         <div class="content-wrapper">
           <div class="title">
             <router-link :to="'/articles/' + article.article.id">{{ article.article.title }}</router-link>
           </div>
-          <div class="abstract">{{ article.article.content }}</div>
+          <div class="abstract">
+            {{ article.article.content }}
+          </div>
           <ul class="action-list">
             <li class="item view"><i class="iconfont icon-view1"></i><span>{{ article.article.view_count }}</span></li>
             <li class="item comment"><i class="iconfont icon-comment_fill_light"></i><span>{{ article.article.comment_count }}</span></li>
@@ -53,7 +58,8 @@ export default {
       articles: [],
       currentPage: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      canDelete: false
     };
   },
   methods: {
@@ -62,15 +68,28 @@ export default {
       const {data: res} = await this.$http.get('/articles', {params: {page: this.currentPage, pageSize: this.pageSize}});
       this.articles = res.data.data;
       this.total = res.data.total;
+    },
+    async deleteArticle(id) {
+      const {data: res} = await this.$http.delete("/articles/" + id, {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      })
+      await this.postPage(1);
     }
   },
   async created() {
     await this.postPage(1);
+    if (this.$store.getters.getUser.username) {
+      this.canDelete = true
+    } else {
+      this.canDelete = false
+    }
   },
   computed: {
     dateFormat() {
       return this.$dataFormat
-    }
+    },
   }
 };
 </script>
@@ -90,6 +109,12 @@ a {
 .vertical-line {
   border-left: 1px #86909c;
   padding: 0 5px;
+}
+.delete-button {
+  border: 0 none;
+  outline: none;
+  padding: 0 5px;
+  color: #86909C;
 }
 
 .title {

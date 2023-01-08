@@ -84,5 +84,8 @@ func Modify(ctx *gin.Context) {
 }
 
 func Delete(ctx *gin.Context) {
-
+	params := ctx.Params
+	id, _ := params.Get("id")
+	service.DeleteArticleById(id)
+	common.Success(ctx, "删除成功")
 }

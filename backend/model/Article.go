@@ -14,6 +14,7 @@ type Article struct {
 	ViewCount    int    `json:"view_count"`
 	LikeCount    int    `json:"like_count"`
 	CommentCount int    `json:"comment_count"`
+	IsDelete     int    `json:"is_delete"`
 	BaseModel
 }
 

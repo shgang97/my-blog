@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8106217",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
       "icon_id": "1512527",
       "name": "comment_fill_light",
       "font_class": "comment_fill_light",
@@ -67,13 +74,6 @@
       "font_class": "icon_login_input_password_pressed",
       "unicode": "e619",
       "unicode_decimal": 58905
-    },
-    {
-      "icon_id": "6337455",
-      "name": "点赞",
-      "font_class": "dianzan",
-      "unicode": "ec7f",
-      "unicode_decimal": 60543
     }
   ]
 }
