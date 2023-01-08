@@ -29,12 +29,20 @@ func GetAllArticleResponse(page, pageSize int) (*response.PageResult, error) {
 	}
 	articleTags, _ := dao.GetArticleTagByArticleIds(ids)
 	for _, value := range articleCategories {
+		var content string
+		flag := "<!-- more -->"
+		if strings.Contains(value.Content, flag) {
+			start := strings.Index(value.Content, flag)
+			content = value.Content[:start]
+		} else {
+			content = string([]rune(value.Content)[:500])
+		}
 		responses = append(responses, &response.ArticleInfo{
 			Article: &result.Article{
 				Id:           value.Id,
 				UserId:       value.UserId,
 				Title:        value.Title,
-				Content:      value.Content,
+				Content:      content,
 				Cover:        value.Cover,
 				ViewCount:    value.ViewCount,
 				LikeCount:    value.LikeCount,

@@ -24,7 +24,9 @@
           <div class="title">
             <router-link :to="'/articles/' + article.article.id">{{ article.article.title }}</router-link>
           </div>
-          <div class="abstract">{{ article.article.content }}</div>
+          <div class="abstract">
+            {{ article.article.content }}
+          </div>
           <ul class="action-list">
             <li class="item view"><i class="iconfont icon-view1"></i><span>{{ article.article.view_count }}</span></li>
             <li class="item comment"><i class="iconfont icon-comment_fill_light"></i><span>{{ article.article.comment_count }}</span></li>

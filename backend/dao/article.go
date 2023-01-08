@@ -18,7 +18,7 @@ func GetArticleCategoryByPage(page, pageSize int) ([]*result2.ArticleCategory, e
 		Select("blog_article.id, blog_article.title, blog_article.content, blog_article.cover, blog_article.view_count, blog_article.like_count, blog_article.comment_count, blog_article.update_at, blog_article.create_at, blog_category.id as category_id, blog_category.name as category_name").
 		Joins("left join blog_article_category on blog_article.id = blog_article_category.article_id").
 		Joins("left join blog_category on blog_category.id=blog_article_category.category_id").
-		Order("blog_article.create_at").
+		Order("blog_article.create_at desc").
 		Offset((page - 1) * pageSize).
 		Limit(pageSize).
 		Find(&results)
